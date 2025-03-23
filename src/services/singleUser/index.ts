@@ -2,13 +2,18 @@
 
 import { cookies } from "next/headers";
 
-  export const GetAllResearchAssociate = async () => {
+  export const GetMe = async () => {
     try {
-
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/researchAssociate`, {
+      const token = (await cookies()).get("accessToken")?.value;
+  
+      if (!token) {
+        throw new Error("Access token not found");
+      }
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/users/me`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
+          "Authorization":token,
         },
       });
   
@@ -18,13 +23,7 @@ import { cookies } from "next/headers";
   
       return await response.json();
     } catch (error) {
-      console.error("Error fetching research associates:", error);
+      console.error("Error fetching user:", error);
       return null;
     }
   };
-
-
-
-
-    
- 

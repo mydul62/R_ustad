@@ -53,12 +53,11 @@ export function DroopDown() {
     const fetchData = async () => {
       const data = await GetAllResearchPaperPublic();
       setPapers(data?.data); 
-      console.log(data); 
     };
   
     fetchData(); 
   }, []);
-  console.log(papers)
+
   return (
     <NavigationMenu>
       <NavigationMenuList>
@@ -121,7 +120,7 @@ export function DroopDown() {
         <NavigationMenuItem>
           <Link href="/blog" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Our Blogs & news
+              Our Events & news
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>

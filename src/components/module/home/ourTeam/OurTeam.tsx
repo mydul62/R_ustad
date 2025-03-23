@@ -1,68 +1,82 @@
-"use client"; 
-
-
-import Image from "next/image";
-import { FaUserCircle } from "react-icons/fa";
-import { Card, CardContent } from "@/components/ui/card";
-import Marquee from "react-fast-marquee"; 
-import { FaArrowRight } from "react-icons/fa6";
-import Team from "./Team";
+"use client"
+import { GetAllResearchAssociate } from "@/services/reserarchers";
+import { UserProfile } from "@/type";
 import Link from "next/link";
-import { leaders } from "@/components/shared/data/teamMenber";
+import { useEffect, useState } from "react";
+import { FaArrowCircleRight, FaFacebook, FaLinkedin } from "react-icons/fa";
+import { LuMoveRight } from "react-icons/lu";
+import SectionTitle from "../../SectionTitle";
 
+const OurTeam =  () => {
+  const [associates, setAssociates] = useState<UserProfile[]>([]);
 
-const OurTeam = () => {
+  useEffect(() => {
+    const fetchAssociates = async () => {
+      try {
+        const data = await GetAllResearchAssociate();
+        setAssociates(data?.data || []);
+      } catch (error) {
+        console.error("Error fetching team members:", error);
+      }
+    };
+
+    fetchAssociates();
+  }, []);
 
   return (
-    <div className=" py-10 lg:pb-[100px] mb-0">
-      <div className="container w-[90%] mx-auto text-center">
-        <div className="flex justify-between items-center">
-          <h2 className="text-3xl flex justify-start gap-2 items-center font-bold mb-8 text-left">
-            <span>
-              Our <span className="text-[#bc986b]">Team Members</span>
-            </span>
-          </h2>
-          <div>
-            <h2 className="text-xl flex justify-start gap-2 items-center font-bold mb-8 text-right">
-              <Link href="/team-members" className="hover:text-green-800">
-                <span>See More</span>
-              </Link>
-              <FaArrowRight size={15} />
-            </h2>
-          </div>
-        </div>
-        <Marquee pauseOnHover gradient={false} speed={50}>
-          <div className="flex space-x-6">
-            {leaders.map((leader, index) => (
-             
-              <Card
-                key={index}
-                className="shadow-md rounded-xl p-6 flex flex-col items-center w-72"
-              >
-                {leader.image ? (
-                  <Image
-                    src={leader.image}
-                    alt={leader.name}
-                    width={100}
-                    height={100}
-                    className="rounded-full mb-4"
-                  />
-                ) : (
-                  <FaUserCircle size={100} className="text-gray-300 mb-4" />
-                )}
-                <CardContent className="text-center hover:text-green-600 hover:underline">
-                <Link href={`/team-members/${leader.id}`}>
-                  <h3 className="text-lg font-semibold mb-2">{leader.name}</h3>
-                  <p className="text-sm text-gray-500 mb-4">{leader.title}</p>
-                  <p className="text-sm text-gray-600">{leader.shortDescription}</p>
-                </Link>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </Marquee>
+    <section className="bg-white dark:bg-gray-900">
+      <div className="container w-[92%]  px-6 py-10 mx-auto">
+      <div>
+      <SectionTitle title={"Our Executive Team"} discription={"Meet our outstanding team of research associates who are dedicated to excellence"} />
       </div>
-    </div>
+
+      <div>
+      <div className="flex justify-end">
+      <Link  href={'/team-members'}  className=" rounded-full bg-[#bc986b] hover:bg-slate-200 hover:text-black p-2">
+      <LuMoveRight color="white" className=" hover:text-black" size={30} />
+      </Link>
+      </div>
+      <div className="grid grid-cols-1 gap-8 mt-4 xl:mt-4 md:grid-cols-2 xl:grid-cols-4">
+          {associates?.slice(0,4).map((associate) => (
+            <div
+              key={associate.id}
+              className="flex flex-col items-center p-8 transition-colors duration-300 transform border cursor-pointer rounded-xl hover:border-transparent group hover:bg-[#bc986b] border-gray-700 dark:hover:border-transparent"
+            >
+              <img
+                className="object-cover w-32 h-32 rounded-full ring-4 ring-gray-300"
+                src={associate.profileImg || "https://via.placeholder.com/150"}
+                alt={associate.fullName}
+              />
+              <h1 className="mt-4 text-2xl font-semibold text-gray-700 capitalize dark:text-white group-hover:text-white">
+                {associate.fullName}
+              </h1>
+              <p className="mt-2 text-gray-500 capitalize dark:text-gray-300 group-hover:text-gray-300">
+                {associate.role}
+              </p>
+
+              <div className="flex mt-4 -mx-2">
+    
+    <Link
+      href={associate?.socialLinks?.facebook || ""}
+      className="mx-2 text-gray-600 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 group-hover:text-white"
+      aria-label="Facebook"
+    >
+      <FaFacebook className="w-6 h-6" />
+    </Link>
+    <Link
+      href={associate?.socialLinks?.linkedin || ""}
+      className="mx-2 text-gray-600 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 group-hover:text-white"
+      aria-label="Github"
+    >
+      <FaLinkedin className="w-6 h-6" />
+    </Link>
+  </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      </div>
+    </section>
   );
 };
 

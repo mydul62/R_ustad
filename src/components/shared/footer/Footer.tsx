@@ -25,15 +25,15 @@ const Footer = () => {
         </div>
           </div>
             <div className="flex items-center gap-4">
-              <FaPhoneAlt className="text-teal-500 text-xl" />
+              <FaPhoneAlt className="text-[#bc986b] text-xl" />
               <span className="text-gray-700">+60 17-630 5405</span>
             </div>
             <div className="flex items-center gap-4">
-              <FaEnvelope className="text-teal-500 text-xl" />
+              <FaEnvelope className="text-[#bc986b] text-xl" />
               <span className="text-gray-700">info@confido-agency.com</span>
             </div>
             <div className="flex items-center gap-4">
-              <FaMapMarkerAlt className="text-teal-500 text-xl" />
+              <FaMapMarkerAlt className="text-[#bc986b] text-xl" />
               <span className="text-gray-700">
                 Saver,Nabinagar,Dhaka
               </span>
@@ -52,7 +52,7 @@ const Footer = () => {
               <div>
                 <Textarea placeholder="Write a Message" className="w-full" />
               </div>
-              <Button type="submit" className="w-full bg-teal-500 hover:bg-teal-600">
+              <Button type="submit" className="w-full bg-[#bc986b] hover:bg-teal-600">
                 Submit
               </Button>
             </form>

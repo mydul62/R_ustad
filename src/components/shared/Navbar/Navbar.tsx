@@ -19,19 +19,19 @@ import { DroopDown } from "@/components/ui/core/DropDown/DropDown";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import { GetMe } from "@/services/singleUser";
 const navLinks = [
-  { name: "Home", href: "#" },
-  { name: "Recent Research Paper", href: "#" },
+  { name: "Home", href: "/" },
   { 
     name: "Our Wings", 
     subLinks: [
       { name: "Inter National Wings", href: "#" },
       { name: "National Wings", href: "#" },
-      { name: "Publications", href: "#" },
+      { name: "Publications", href: "/allpapers" },
       { name: "Recent Project", href: "#" }
     ]
   },
-  { name: "Our Researchers", href: "#" },
+  { name: "Our Researchers", href: "/our-team" },
   { name: "Our Blogs & News", href: "#" }
 ];
 interface NavItem {
@@ -48,25 +48,26 @@ const links: NavItem[] = [
 ];
 
 const Navbar = () => {
+
   const [open, setOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [user, setData] = useState(null);
+  const router = useRouter()
   const toggleDropdown = (index:any) => {
     setOpenDropdown(openDropdown === index ? null : index);
   };
   useEffect(() => {
     const fetchData = async () => {
-      const result = await getCurrentUser();
-      console.log(result?.data);
+      const result = await GetMe();
       setData(result?.data);
     };
 
     fetchData();
   }, []); 
-  console.log(user)
+console.log(user)
   const handleLogOut = () => {
     logout();
-    // router.push("/");
+    router.push("/");
   };
 
   return (
@@ -102,7 +103,9 @@ const Navbar = () => {
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem className="bg-red-500 cursor-pointer">
-                <Link href={"/login"}>Login</Link>
+               {
+               user?<span onClick={handleLogOut}>Logout</span>: <Link href={"/login"}>Login</Link>
+               }
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -112,7 +115,8 @@ const Navbar = () => {
     <div className="p-4 lg:hidden block bg-white shadow-md">
       <div className="flex justify-between items-center">
         <h1 className="text-lg font-bold">Research<span className="text-yellow-600">Ustad</span></h1>
-        <Sheet open={open} onOpenChange={setOpen}>
+       <div className="flex items-center justify-end gap-4">
+       <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger className="p-2 focus:outline-none">
             {open ? <X size={24} /> : <Menu size={24} />}
           </SheetTrigger>
@@ -146,31 +150,30 @@ const Navbar = () => {
                 </div>
               ))}
             </nav>
-            <div>
+         
+          </SheetContent>
+        </Sheet>
+        <div>
         <DropdownMenu>
-            <DropdownMenuTrigger>
-              <Avatar>
-                <AvatarImage src="https://github.com/shadcn.png" />
-                <AvatarFallback>User</AvatarFallback>
-              </Avatar>
+            <DropdownMenuTrigger title="User">
+            <AiOutlineLogin size={30}/>
             </DropdownMenuTrigger>
 
             <DropdownMenuContent>
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
-             {user &&  <Link href={`/admin/dashboard`}>Dashboard</Link>}
+              {/* {user &&  <Link href={`/admin/dashboard`}>Dashboard</Link>} */}
+              {user &&  <Link href={`/admin/dashboard`}>Dashboard</Link>}
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem className="bg-red-500 cursor-pointer">
-             {user?  <Button>Logout</Button>:  <Link href={"/login"}>Login</Link>}
+                <Link href={"/login"}>Login</Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-          </SheetContent>
-        </Sheet>
-        
+       </div>
       </div>
       
     </div>

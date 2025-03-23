@@ -39,3 +39,38 @@ export type ResearchPaper = {
   journalRank: string;
   visitLink: string;
 };
+
+
+export interface Education {
+  degree: string;
+  field: string;
+  institution: string;
+  status: string;
+  scholarship?: string;
+}
+
+export interface SocialLinks {
+  facebook?: string;
+  twitter?: string;
+  linkedin?: string;
+}
+
+export interface UserProfile {
+  id: string;
+  user: string;
+  fullName: string;
+  email: string;
+  contactNo: string;
+  role: string;
+  profileImg?: string;
+  shortBio?: string;
+  research: string[];
+  isDeleted: boolean;
+  current: {
+    institution: string;
+    department: string;
+    degree: string;
+  };
+  education: Education;
+  socialLinks: SocialLinks;
+}

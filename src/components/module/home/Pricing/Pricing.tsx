@@ -1,4 +1,5 @@
 import React from "react";
+import SectionTitle from "../../SectionTitle";
 
 const pricingPlans = [
   {
@@ -42,7 +43,8 @@ const Pricing: React.FC = () => {
   return (
     <div className="bg-white dark:bg-gray-900">
       <div className="container w-[90%]  py-8 mx-auto">
-        <div className="flex flex-col items-center justify-center space-y-8 lg:-mx-4 lg:flex-row lg:items-stretch lg:space-y-0">
+      <SectionTitle title="Our Upcomming Courses" discription="Explore diverse courses to enhance your skills and knowledge across various fields."/>
+        <div className="flex flex-col items-center justify-center space-y-8 lg:mt-11 lg:-mx-4 lg:flex-row lg:items-stretch lg:space-y-0">
           {pricingPlans.map((plan) => (
             <div
               key={plan.name}
@@ -71,7 +73,7 @@ const Pricing: React.FC = () => {
                 ))}
               </ul>
 
-              <button className="inline-flex items-center justify-center px-4 py-2 font-medium text-white uppercase transition-colors bg-blue-500 rounded-lg hover:bg-blue-700 focus:outline-none">
+              <button className="inline-flex items-center justify-center px-4 py-2 font-medium text-white uppercase transition-colors bg-[#bc986b] rounded-lg hover:bg-[#bc976b7b] focus:outline-none">
                 {plan.buttonText}
               </button>
             </div>

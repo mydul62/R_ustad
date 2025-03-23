@@ -24,9 +24,21 @@ import {
 import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
 import Link from "next/link";
+import { GetMe } from "@/services/singleUser";
 
+interface User {
+  _id: string;
+  email: string;
+  needsPasswordChange: boolean;
+  role: string;
+  status: string;
+  isDeleted: boolean;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
 
-const admin = {
+const adminRoute = {
   navMain: [
     {
       title: "Dashboard",
@@ -40,6 +52,11 @@ const admin = {
       icon: Bot,
     },
     {
+      title: "Create Events",
+      url: "/admin/dashboard/createevents",
+      icon: Bot,
+    },
+    {
       title: "Manage Research Paper",
       url: "#",
       icon: Settings,
@@ -47,7 +64,7 @@ const admin = {
         {
           title: "All Research Paper",
           url: "/admin/dashboard/allresearchpaper",
-        }
+        },
       ],
     },
     {
@@ -92,7 +109,8 @@ const admin = {
     },
   ],
 };
-const user = {
+
+const userRoute = {
   navMain: [
     {
       title: "Dashboard",
@@ -101,7 +119,7 @@ const user = {
       isActive: true,
     },
     {
-      title: "Update informations",
+      title: "Update Information",
       url: "/user/dashboard/updateinfo",
       icon: Bot,
     },
@@ -111,12 +129,12 @@ const user = {
       icon: Bot,
     },
     {
-      title: "My Running project",
+      title: "My Running Project",
       url: "/user/dashboard/addresearchpaper",
       icon: Bot,
     },
     {
-      title: "Add Reserch Paper",
+      title: "Add Research Paper",
       url: "/user/dashboard/addresearchpaper",
       icon: Bot,
     },
@@ -125,15 +143,32 @@ const user = {
       url: "/user/dashboard/addresearchpaper",
       icon: Bot,
     },
-    
-    ]
+  ],
 };
 
- const userrole = {
- role :'admin'
- }
-const data = userrole?.role=='admin'? admin : user
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const [user, setUser] = React.useState<User | null>(null);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await GetMe();
+        console.log(result);
+        setUser(result?.data || null);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (!user) {
+    return null;
+  }
+
+  const data = user.role === "superAdmin" || user.role === "admin" ? adminRoute : userRoute;
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -141,11 +176,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
               <Link href="/">
-                <div className="flex items-center justify-center">
-            
-                </div>
+                <div className="flex items-center justify-center"></div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <h2 className="font-bold text-xl">Research <span className=" text-red-400">Ustad</span></h2>
+                  <h2 className="font-bold text-xl">
+                    Research <span className="text-red-400">Ustad</span>
+                  </h2>
                 </div>
               </Link>
             </SidebarMenuButton>

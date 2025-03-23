@@ -1,33 +1,11 @@
-
+"use client"
 import Image from "next/image";
-import React from "react";
+import BlogCard from "./blog/BlogCard";
+import { blogPosts } from "./data";
 
-const blogPosts = [
-  {
-    title: "What do you want to know about UI",
-    author: "Tom Hank",
-    role: "Creative Director",
-    image: "https://images.unsplash.com/photo-1624996379697-f01d168b1a52?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
-    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
-    excerpt: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis fugit dolorum amet dolores praesentium.",
-  },
-  {
-    title: "All the features you want to know",
-    author: "Arthur Melo",
-    role: "Creative Director",
-    image: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
-    avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80",
-    excerpt: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis fugit dolorum amet dolores praesentium.",
-  },
-  {
-    title: "Which services you get from Meraki UI",
-    author: "Amelia Anderson",
-    role: "Lead Developer",
-    image: "https://images.unsplash.com/photo-1597534458220-9fb4969f2df5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80",
-    avatar: "https://images.unsplash.com/photo-1531590878845-12627191e687?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80",
-    excerpt: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis fugit dolorum amet dolores praesentium.",
-  },
-];
+
+
+
 
 
 const BlogPage: React.FC = () => {
@@ -45,39 +23,7 @@ const BlogPage: React.FC = () => {
 
         <div className="grid grid-cols-1 gap-8 mt-8 md:mt-16 md:grid-cols-2 xl:grid-cols-3">
           {blogPosts.map((post, index) => (
-            <div key={index}>
-              <div className="relative">
-                <Image
-                  className="object-cover object-center w-full h-64 rounded-lg lg:h-80"
-                  src={post.image}
-                  alt={post.title}
-                  width={500}
-                  height={320}
-                  layout="responsive"
-                />
-                <div className="absolute bottom-0 flex p-3 bg-white dark:bg-gray-900">
-                  <Image
-                    className="object-cover object-center w-10 h-10 rounded-full"
-                    src={post.avatar}
-                    alt={post.author}
-                    width={40}
-                    height={40}
-                  />
-                  <div className="mx-4">
-                    <h1 className="text-sm text-gray-700 dark:text-gray-200">{post.author}</h1>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">{post.role}</p>
-                  </div>
-                </div>
-              </div>
-
-              <h1 className="mt-6 text-xl font-semibold text-gray-800 dark:text-white">{post.title}</h1>
-              <hr className="w-32 my-6 text-blue-500" />
-              <p className="text-sm text-gray-500 dark:text-gray-400">{post.excerpt}</p>
-
-              <a href="#" className="inline-block mt-4 text-blue-500 underline hover:text-blue-400">
-                Read more
-              </a>
-            </div>
+            <BlogCard key={index} post={post}/>
           ))}
         </div>
       </div>

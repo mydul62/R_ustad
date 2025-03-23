@@ -11,10 +11,10 @@ import { researchAreas } from "@/components/shared/data/researchArea";
 
 
 
-const ResearchArea = () => {
+const   ResearchArea = () => {
   return (
     <div className="py-[80px] container sm:w-[90%] mx-auto">
-      <SectionTitle title="Our Research Areas" />
+      <SectionTitle title="Our Research Areas"  discription={"Meet our outstanding team of research associates who are dedicated to excellence."}/>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mt-8">
         {researchAreas?.map((area,i) => {
           const Icon = area.icon; // Dynamically render the icon

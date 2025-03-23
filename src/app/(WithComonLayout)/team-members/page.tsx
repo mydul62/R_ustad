@@ -1,12 +1,14 @@
 
 import Team from "@/components/module/home/ourTeam/Team";
-import { GetAllResearchAssociate } from "@/services/AuthService";
+import { Input } from "@/components/ui/input";
+import { GetAllResearchAssociate } from "@/services/reserarchers";
+
 import { FaUserGraduate, FaChalkboardTeacher, FaUsersCog } from "react-icons/fa";
 
 const page =async () => {
 const data = await GetAllResearchAssociate()
 const ascociates = data?.data
-console.log(ascociates)
+
   return (
     <div className="relative">
     {/* Hero Section */}
@@ -35,51 +37,22 @@ console.log(ascociates)
     </div>
 
     <div className="flex container gap-5 mx-auto py-10">
-      {/* Sidebar */}
-      <div className="hidden lg:block w-[300px] bg-white border-r border-gray-300 shadow-sm sticky top-16 h-screen p-6">
-        <h3 className="text-xl font-bold mb-6">Navigation</h3>
-        <ul className="space-y-6">
-          <li>
-            <a
-              href="#advisor-pannel"
-              className="flex items-center text-gray-800 hover:text-yellow-500 font-medium transition duration-200"
-            >
-              <FaUsersCog className="mr-4 text-xl" />
-              Advisor Panel
-            </a>
-          </li>
-          <li>
-            <a
-              href="#mentor"
-              className="flex items-center text-gray-800 hover:text-yellow-500 font-medium transition duration-200"
-            >
-              <FaChalkboardTeacher className="mr-4 text-xl" />
-              Mentors
-            </a>
-          </li>
-          <li>
-            <a
-              href="#lead-team"
-              className="flex items-center text-gray-800 hover:text-yellow-500 font-medium transition duration-200"
-            >
-              <FaUserGraduate className="mr-4 text-xl" />
-              Lead Team
-            </a>
-          </li>
-        </ul>
-      </div>
-
+  
       {/* Main Content */}
       <div className="flex-1  py-4">
         <div id="advisor-pannel" className="container w-[90%] mx-auto ">
-          <Team title_pre="Advisor" title_next="Pannel" allMembers={ascociates}/>
+        <div className="flex justify-between items-center  mb-11 ">
+       <div>
+       <h3 className=" text-3xl font-semibold">Our Team</h3>
+       </div>
+        <div className="">
+        <Input className=" w-64"  placeholder="Search here"></Input>
         </div>
-        {/* <div id="mentor" className="container mx-auto w-[90%]  py-10">
-          <Team title_pre="Our" title_next="Mentors" />
+        {/* search field */}
         </div>
-        <div id="lead-team" className="container mx-auto w-[90%]  py-10">
-          <Team title_pre="Our" title_next="Lead Team" /> */}
-        {/* </div> */}
+          <Team  allMembers={ascociates}/>
+        </div>
+    
       </div>
     </div>
   </div>
