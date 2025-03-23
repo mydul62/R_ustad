@@ -74,3 +74,14 @@ export interface UserProfile {
   education: Education;
   socialLinks: SocialLinks;
 }
+export interface TUser {
+  _id: string;
+  email: string;
+  needsPasswordChange: boolean;
+  role: string
+  status:string
+  isDeleted: boolean;
+  createdAt: string; 
+  updatedAt: string;
+  __v: number;
+}

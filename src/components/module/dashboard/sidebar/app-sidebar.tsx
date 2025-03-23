@@ -107,6 +107,7 @@ const adminRoute = {
       url: "#",
       icon: Map,
     },
+    
   ],
 };
 
@@ -143,6 +144,18 @@ const userRoute = {
       url: "/user/dashboard/addresearchpaper",
       icon: Bot,
     },
+    {
+      title: "Settings",
+      url: "#",
+      icon: Settings,
+      items: [
+        {
+          title: "Profile",
+          url: "/user/dashboard/profileinfo",
+        },
+      ],
+    },
+    
   ],
 };
 
