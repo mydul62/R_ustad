@@ -75,8 +75,8 @@ export function DroopDown() {
     
 
                  {papers?.slice(0,3).map((paper:ResearchPaper) => (
-                   <Link href={paper?.visitLink} target="_blank">
-                    <Card key={paper._id} className="max-w-sm py-1  rounded-lg bg-white">
+                   <Link  key={paper?._id} href={paper?.visitLink} target="_blank">
+                    <Card className="max-w-sm py-1  rounded-lg bg-white">
                     <div className="p-4">
                       <CardTitle className="text-lg font-semibold">{paper.title}</CardTitle>
                       <CardDescription className="text-sm text-gray-600">
