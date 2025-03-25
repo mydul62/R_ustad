@@ -85,3 +85,28 @@ export interface TUser {
   updatedAt: string;
   __v: number;
 }
+export type TPost = {
+  title: string;
+  author: string;
+  role: string;
+  image: string;
+  avatar: string;
+  excerpt: string;
+};
+
+export type TPapers = {
+  _id: string;
+  year: number;
+  title: string;
+  authors: string[];
+  journal: string;
+  volume: string;
+  impactFactor: number;
+  journalRank: string;
+  visitLink: string;
+  journalType: string;
+  isApproved: boolean;
+  createdAt: string; // ISO date string
+  updatedAt: string; // ISO date string
+  __v: number;
+};

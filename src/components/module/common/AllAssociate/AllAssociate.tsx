@@ -1,5 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { TResearchAssociate } from "@/type";
+import Image from "next/image";
 import { FaFacebookF, FaTwitter, FaLinkedin } from "react-icons/fa";
 
 
@@ -25,13 +26,13 @@ export default function AllAssociates(data:TResearchAssociate[]) {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
         {associates.map((associate, index) => (
           <Card key={index} className="flex items-center p-4 bg-white shadow-md rounded-lg">
-            <img
-              src={associate.profileImg}
-              alt={associate.fullName}
+            <Image
+              src={associate.img}
+              alt={associate.name}
               className="w-24 h-24 rounded-lg object-cover"
             />
             <div className="ml-4">
-              <h3 className="text-lg font-semibold">{associate.fullName}</h3>
+              <h3 className="text-lg font-semibold">{associate.name}</h3>
               <p className="text-gray-500 text-sm mb-1">{associate.designation}</p>
               <p className="text-gray-500 text-sm mb-3">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.

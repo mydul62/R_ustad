@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { getCurrentUser, logout } from "@/services/AuthService";
+import {  logout } from "@/services/AuthService";
 import { useRouter } from "next/navigation";
 import { DroopDown } from "@/components/ui/core/DropDown/DropDown";
 import { Menu, X, ChevronDown } from "lucide-react";

@@ -2,15 +2,17 @@
 import { Card, CardFooter, CardTitle, CardDescription } from "@/components/ui/card"; // Correct imports from ShadCN
 import { Button } from "@/components/ui/button"; // Button from ShadCN
 import PageTitle from "@/components/ui/core/PageTitle/PageTitle";
+import { TPapers } from "@/type";
 
-const AllPapers = ({ papers }) => {
+const AllPapers = ({ papers }:{papers:TPapers[]}) => {
+console.log(papers)
   return (
     <>
       <div>
         <PageTitle link={"home"} title={"Research Papers"} />
       </div>
       <div className="research_papers max-w-7xl mx-auto py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {papers.map((paper) => (
+        {papers.map((paper:TPapers) => (
           <Card key={paper._id} className="max-w-sm shadow-lg rounded-lg bg-white">
             <div className="p-4">
               <CardTitle className="text-xl font-semibold">{paper.title}</CardTitle>

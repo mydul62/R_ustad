@@ -1,7 +1,12 @@
 import Link from 'next/link'
 import React from 'react'
 
-const PageTitle = ({title,link}) => {
+type PageTitle = {
+  title:string;
+  link:string;
+}
+
+const PageTitle = ({title,link}:PageTitle) => {
   return (
     <div>
        <div

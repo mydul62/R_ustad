@@ -2,9 +2,9 @@
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ApprovePaper, DeletePaper } from "@/services/allreserchPaper";
+import { TPapers } from "@/type";
 
-const ResearchPapers = ({ researchPapers }) => {
-  console.log(researchPapers);
+const ResearchPapers = ({ researchPapers }:{researchPapers:TPapers[]}) => {
 
   const handleApprove = async (id: string) => {
     console.log("Approving paper with ID:", id);

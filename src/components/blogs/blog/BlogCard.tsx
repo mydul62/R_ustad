@@ -1,6 +1,8 @@
+import { TPost } from "@/type"
 import Image from "next/image"
 
-const BlogCard = ({post}) => {
+const BlogCard = ({post}:{post:TPost}) => {
+console.log(post)
   return (
      <div >
                   <div className="relative">

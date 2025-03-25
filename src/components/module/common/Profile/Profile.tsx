@@ -67,8 +67,8 @@ const Profile = () => {
           </p>
           <p className="flex items-center text-gray-300 mt-2">
             <FaUniversity className="mr-2 text-white" />
-            {currentUser?.institution || "ABC University"},{" "}
-            {currentUser?.department || "Computer Science"}
+            {currentUser?.education?.institution || "ABC University"},{" "}
+            {currentUser?.education?.field || "Computer Science"}
           </p>
           {/* Social Links */}
           <div className="mt-4 flex space-x-4">
@@ -107,9 +107,9 @@ const Profile = () => {
                 placeholder="Old Password"
                 {...register("oldPassword", { required: "Current password is required" })}
               />
-              {errors.currentPassword && (
+              {/* {errors.currentPassword && (
                 <p className="text-red-500 text-sm">{errors.currentPassword.message}</p>
-              )}
+              )} */}
 
               <Input
                 type="password"
@@ -119,9 +119,9 @@ const Profile = () => {
                   minLength: { value: 6, message: "Password must be at least 6 characters long" },
                 })}
               />
-              {errors.newPassword && (
+              {/* {errors.newPassword && (
                 <p className="text-red-500 text-sm">{errors.newPassword.message}</p>
-              )}
+              )} */}
 
               <Button type="submit" className="w-full bg-blue-500 text-white">
                 Change Password

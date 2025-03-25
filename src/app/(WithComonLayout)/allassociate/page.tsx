@@ -1,5 +1,4 @@
 import AllAssociate from "@/components/module/common/AllAssociate/AllAssociate"
-import { GetAllResearchAssociate } from "@/services/AuthService"
 import { TResearchAssociate } from "@/type"
 
 

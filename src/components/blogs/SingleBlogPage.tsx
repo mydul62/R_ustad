@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/router"; // For getting dynamic route params
 import { Card } from "../ui/card";
 
-function BlogDetailsPage({id}) {
+function BlogDetailsPage({id}:{id:string}) {
 
   const post = 
     {
