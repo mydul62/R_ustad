@@ -1,11 +1,21 @@
 "use client"
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { ApprovePaper, DeletePaper } from "@/services/allreserchPaper";
+import { ApprovePaper, DeletePaper, GetAllResearchPaper } from "@/services/allreserchPaper";
 import { TPapers } from "@/type";
+import { useEffect, useState } from "react";
 
-const ResearchPapers = ({ researchPapers }:{researchPapers:TPapers[]}) => {
+const ResearchPapers = () => {
+  const [researchPapers, setResearchPapers] = useState([]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await GetAllResearchPaper();
+      setResearchPapers(data?.data || []);
+    };
+
+    fetchData();
+  }, []);
   const handleApprove = async (id: string) => {
     console.log("Approving paper with ID:", id);
     const res = await ApprovePaper(id);
@@ -37,7 +47,7 @@ const ResearchPapers = ({ researchPapers }:{researchPapers:TPapers[]}) => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {researchPapers?.map((paper) => (
+            {researchPapers?.map((paper:TPapers) => (
               <TableRow key={paper._id}>
                 <TableCell>{paper.title}</TableCell>
                 <TableCell>{paper.authors.join(", ")}</TableCell>

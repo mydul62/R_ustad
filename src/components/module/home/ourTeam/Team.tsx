@@ -16,10 +16,10 @@ const Team = ({ allMembers }: AllMembers) => {
       <div className="">
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4">
           {allMembers.map((member: UserProfile) => (
-            <div key={member.id}>
+            <div key={member.id} className="px-12 py-8 transition-colors duration-300 transform border cursor-pointer rounded-xl hover:border-transparent group hover:bg-blue-600 dark:border-gray-700 dark:hover:border-transparent">
               <Link href={`/team-members/${member.id}`}>
-                <div className="px-12 py-8 transition-colors duration-300 transform border cursor-pointer rounded-xl hover:border-transparent group hover:bg-blue-600 dark:border-gray-700 dark:hover:border-transparent">
-                  <div className="flex flex-col sm:-mx-4 sm:flex-row">
+                <div className=" ">
+                  <div className="flex flex-col sm:-mx-4 sm:flex-row gap-6">
                     <div className="relative w-24 h-24 sm:w-32 sm:h-32">
                       <Image
                         className="object-cover rounded-full sm:mx-4 ring-4 ring-gray-300"

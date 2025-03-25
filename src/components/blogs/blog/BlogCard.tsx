@@ -1,5 +1,6 @@
 import { TPost } from "@/type"
 import Image from "next/image"
+import Link from "next/link"
 
 const BlogCard = ({post}:{post:TPost}) => {
 console.log(post)
@@ -33,9 +34,9 @@ console.log(post)
                   <hr className="w-32 my-6 text-blue-500" />
                   <p className="text-sm text-gray-500 dark:text-gray-400">{post.excerpt}</p>
     
-                  <a href="#" className="inline-block mt-4 text-blue-500 underline hover:text-blue-400">
+                  <Link href={`/blog/${post?._id}`} className="inline-block mt-4 text-blue-500 underline hover:text-blue-400">
                     Read more
-                  </a>
+                  </Link>
                 </div>
   )
 }

@@ -1,9 +1,8 @@
 "use client";
 import { AiOutlineLogin } from "react-icons/ai";
 
-import { JSX, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import Link from "next/link";
-import { FaBars, FaTimes, FaAngleDown, FaUser } from "react-icons/fa";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,13 +11,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {  logout } from "@/services/AuthService";
 import { useRouter } from "next/navigation";
 import { DroopDown } from "@/components/ui/core/DropDown/DropDown";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
 import { GetMe } from "@/services/singleUser";
 const navLinks = [
   { name: "Home", href: "/" },

@@ -86,6 +86,7 @@ export interface TUser {
   __v: number;
 }
 export type TPost = {
+_id:string
   title: string;
   author: string;
   role: string;
