@@ -75,16 +75,21 @@ export interface UserProfile {
   socialLinks: SocialLinks;
 }
 export interface TUser {
-  _id: string;
+ _id: string;
   email: string;
   needsPasswordChange: boolean;
-  role: string
-  status:string
+  fullName: string;
+  designation: string;
+  status: string;
+  role: string;
   isDeleted: boolean;
-  createdAt: string; 
+  createdAt: string;
   updatedAt: string;
   __v: number;
+  passwordChangedAt?: string;
 }
+
+
 export type TPost = {
 _id:string
   title: string;

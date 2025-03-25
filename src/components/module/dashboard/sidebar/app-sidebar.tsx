@@ -166,7 +166,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const fetchData = async () => {
       try {
         const result = await GetMe();
-        console.log(result);
         setUser(result?.data || null);
       } catch (error) {
         console.error("Error fetching user data:", error);
