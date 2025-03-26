@@ -61,7 +61,6 @@ const Navbar = () => {
 
     fetchData();
   }, []); 
-console.log(user)
   const handleLogOut = () => {
     logout();
     router.push("/");
@@ -95,8 +94,8 @@ console.log(user)
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
-              {/* {user &&  <Link href={`/admin/dashboard`}>Dashboard</Link>} */}
-               <Link href={`/admin/dashboard`}>Dashboard</Link>
+              {user &&  <Link href={`/admin/dashboard`}>Dashboard</Link>}
+   
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem className="bg-red-500 cursor-pointer">
@@ -160,7 +159,6 @@ console.log(user)
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
-              {/* {user &&  <Link href={`/admin/dashboard`}>Dashboard</Link>} */}
               {user &&  <Link href={`/admin/dashboard`}>Dashboard</Link>}
               </DropdownMenuItem>
               <DropdownMenuSeparator />

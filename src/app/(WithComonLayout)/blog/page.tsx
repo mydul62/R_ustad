@@ -1,11 +1,14 @@
 
 import BlogPage from '@/components/blogs/BlogPage';
+import { GetAllBlog } from '@/services/blogs';
 import React from 'react';
 
-const page = () => {
+const page =async () => {
+const {data}=await GetAllBlog()
+console.log(data)
     return (
         <div>
-           <BlogPage></BlogPage>
+           <BlogPage data = {data}></BlogPage>
         </div>
     );
 };

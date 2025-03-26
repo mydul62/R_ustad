@@ -99,7 +99,7 @@ const CreateEvents: React.FC = () => {
 
   return (
     <div className="max-w-full w-[98%] mx-auto">
-      <form onSubmit={handleSubmit(onSubmit)} className="grid gap-6 py-4">
+      {/* <form onSubmit={handleSubmit(onSubmit)} className="grid gap-6 py-4">
         <h2 className="text-lg font-semibold">Event Information</h2>
 
         <div className="space-y-2">
@@ -176,7 +176,8 @@ const CreateEvents: React.FC = () => {
         <DialogFooter>
           <Button type="submit">{loading ? "Submitting..." : "Submit"}</Button>
         </DialogFooter>
-      </form>
+      </form> */}
+      "On deveplopment phase"
     </div>
   );
 };

@@ -68,13 +68,28 @@ const adminRoute = {
       ],
     },
     {
+      title: "Manage Users",
+      url: "#",
+      icon: Settings,
+      items: [
+        {
+          title: "All Users",
+          url: "/admin/dashboard/allusers",
+        },
+        {
+          title: "Manage Members",
+          url: "/admin/dashboard/members",
+        },
+      ],
+    },
+    {
       title: "Settings",
       url: "#",
       icon: Settings,
       items: [
         {
           title: "Profile",
-          url: "/profile",
+          url: "/user/dashboard/profileinfo",
         },
       ],
     },
@@ -130,17 +145,17 @@ const userRoute = {
       icon: Bot,
     },
     {
-      title: "My Running Project",
-      url: "/user/dashboard/addresearchpaper",
+      title: "Post a Blog",
+      url: "/user/dashboard/createblog",
+      icon: Bot,
+    },
+    {
+      title: "My All Blogs",
+      url: "/user/dashboard/mypapers",
       icon: Bot,
     },
     {
       title: "Add Research Paper",
-      url: "/user/dashboard/addresearchpaper",
-      icon: Bot,
-    },
-    {
-      title: "Add Running Project",
       url: "/user/dashboard/addresearchpaper",
       icon: Bot,
     },

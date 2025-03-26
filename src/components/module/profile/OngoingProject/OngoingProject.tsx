@@ -4,11 +4,19 @@ import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DeletePaper } from "@/services/allreserchPaper";
 import { TPapers } from "@/type";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const MyResearch = ({data}:{data:TPapers[]}) => {
- 
 
+const OngoingProject = ({data}:{data:TPapers[]}) => {
+  const [ongotinProjects, setOngoingProjects] = useState<User[]>([]);
+
+  useEffect(() => {
+
+    const unapprovedUsers = data.filter(p => !p.isApproved);
+    setOngoingProjects(unapprovedUsers);
+  }, [data]);
+    
+console.log(ongotinProjects)
   const handleDelete = async (id: string) => {
     try {
       console.log("Deleting paper with ID:", id);
@@ -37,8 +45,8 @@ const MyResearch = ({data}:{data:TPapers[]}) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.length > 0 ? (
-            data.map((paper) => (
+          {ongotinProjects.length > 0 ? (
+            ongotinProjects.map((paper) => (
               <TableRow key={paper._id}>
                 <TableCell>{paper.title}</TableCell>
                 <TableCell>{paper.authors.join(", ")}</TableCell>
@@ -70,4 +78,4 @@ const MyResearch = ({data}:{data:TPapers[]}) => {
   );
 };
 
-export default MyResearch;
+export default OngoingProject;

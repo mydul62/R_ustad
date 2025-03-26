@@ -29,6 +29,29 @@ import { cookies } from "next/headers";
       return null;
     }
   };
+  export const GetResearchPaperById = async (id:string) => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/paper/personalPapers/${id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        next: {
+          tags: ["singlePaper"],
+        
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Request failed with status: ${response.status}`);
+      }
+  
+      return await response.json();
+    } catch (error) {
+      console.error("Error fetching research paper:", error);
+      return null;
+    }
+  };
   export const MyResearchPaper = async () => {
     try {
       const cookieStore = await cookies();

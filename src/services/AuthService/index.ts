@@ -1,4 +1,5 @@
 "use server";
+import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { FieldValues } from "react-hook-form";
 export const registerUser = async (data:any) => {
@@ -33,6 +34,7 @@ try {
           (await cookies()).set("accessToken", res.data.accessToken);
         }
   return { success: !!res.success, message: res.message || "Login failed" };
+  revalidateTag:"loginuser"
 } catch (error:any) {
   console.log(error)
 }
@@ -50,4 +52,5 @@ try {
 
 export const logout = async () => {
   (await cookies()).delete("accessToken");
+  revalidateTag:"loginuser"
 };

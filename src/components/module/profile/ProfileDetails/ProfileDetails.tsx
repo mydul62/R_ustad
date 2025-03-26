@@ -3,8 +3,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Image from "next/image"
 import MyResearch from "../MyReseraches/MyResearch"
+import { TPapers } from "@/type"
+import OngoingProject from "../OngoingProject/OngoingProject"
 
-const ProfileDetails = () => {
+const ProfileDetails = ({data}:{data:TPapers[]}) => {
+    
+     
+
   return (
     <section className="container mx-auto w-[90%] py-10  lg:my-[60px] my-10  sm:px-6 lg:px-8">
     <div className="flex flex-col lg:flex-row bg-white  rounded-2xl overflow-hidden border border-gray-200">
@@ -64,16 +69,16 @@ const ProfileDetails = () => {
       
     </div>
     <div className=" my-3">
-        <Tabs defaultValue="account" className="w-full">
+        <Tabs defaultValue="Pulications" className="w-full">
       <TabsList className="grid w-full grid-cols-2 rounded-none">
         <TabsTrigger className="rounded-none" value="Ongoing">Ongoing Project</TabsTrigger>
         <TabsTrigger className="rounded-none"   value="Pulications">Pulications</TabsTrigger>
       </TabsList>
       <TabsContent value="Ongoing">
-      <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus, nobis!</p>
+         <OngoingProject data = {data}></OngoingProject>
       </TabsContent>
       <TabsContent value="Pulications">
-      <MyResearch></MyResearch>
+      <MyResearch data={data}></MyResearch>
       </TabsContent>
     </Tabs>
         </div>

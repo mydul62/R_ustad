@@ -16,7 +16,7 @@ const Profile = () => {
     },
   };
   return (
-    <div className="min-h-screen flex justify-center items-center bg-gray-100 p-6">
+    <div className=" flex justify-center items-center bg-gray-100 p-6">
     <Card className="w-full max-w-4xl shadow-xl rounded-lg bg-white">
       <CardHeader className="flex flex-col items-center p-8 bg-blue-500 text-white rounded-t-lg">
         <Avatar className="w-24 h-24 border-4 border-white shadow-md">

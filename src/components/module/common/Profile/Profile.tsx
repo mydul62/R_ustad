@@ -49,7 +49,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-gray-100 p-6">
+    <div className=" flex justify-center items-center bg-gray-100 p-6">
       <Card className="w-full max-w-5xl shadow-xl rounded-lg bg-white flex flex-col md:flex-row overflow-hidden">
         {/* Sidebar */}
         <div className="w-full md:w-2/5 bg-gradient-to-r from-blue-600 to-blue-400 text-white p-8 flex flex-col items-center rounded-t-lg md:rounded-l-lg md:rounded-tr-none">

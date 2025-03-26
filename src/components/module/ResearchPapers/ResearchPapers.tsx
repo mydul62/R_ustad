@@ -11,11 +11,17 @@ const ResearchPapers = () => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await GetAllResearchPaper();
+    console.log(data)
       setResearchPapers(data?.data || []);
     };
 
     fetchData();
   }, []);
+  
+
+  
+  console.log(researchPapers)
+  
   const handleApprove = async (id: string) => {
     console.log("Approving paper with ID:", id);
     const res = await ApprovePaper(id);
@@ -27,9 +33,12 @@ const ResearchPapers = () => {
     const res = await DeletePaper(id);
     console.log(res);
   };
-
+  if(researchPapers.length<1){
+    return <div className=" flex justify-center items-center"><div>No data available!</div></div>
+  }
   return (
     <div>
+    <h1 className="text-2xl font-bold mb-4">Research Papers</h1>
       <div className="overflow-x-auto">
         <Table>
           <TableHeader>

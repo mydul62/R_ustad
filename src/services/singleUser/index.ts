@@ -15,6 +15,9 @@ import { cookies } from "next/headers";
           "Content-Type": "application/json",
           "Authorization":token,
         },
+        next:{
+        tags:['loginuser']
+        }
       });
   
       if (!response.ok) {

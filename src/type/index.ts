@@ -1,4 +1,5 @@
 export type TResearchAssociate = {
+  image: string;
   current: {
     institution: string;
     department: string;
@@ -90,15 +91,35 @@ export interface TUser {
 }
 
 
-export type TPost = {
-_id:string
-  title: string;
-  author: string;
+interface Author {
+  _id: string;
+  email: string;
+  needsPasswordChange: boolean;
+  fullName: string;
+  designation: string;
+  status: string;
   role: string;
+  isDeleted: boolean;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export type TPost ={
+  _id: string;
+  title: string;
+  author: Author;
   image: string;
-  avatar: string;
-  excerpt: string;
-};
+  shortDescription: string;
+  category: string;
+  publishedDate: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+
+
 
 export type TPapers = {
   _id: string;
