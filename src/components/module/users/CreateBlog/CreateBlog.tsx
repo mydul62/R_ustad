@@ -1,71 +1,125 @@
 "use client";
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import React from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
 
-interface BlogPostForm {
-  title: string;
-  image: FileList; // Accepts files instead of a URL
-  shortDescription: string;
-  category: string;
-  publishedDate: string;
-}
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { toast } from "sonner";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { BlogPost } from "@/services/blogs";
+import { TUser } from "@/type";
+import { GetMe } from "@/services/singleUser";
 
-const CreateBlog: React.FC = () => {
-  const { register, handleSubmit } = useForm<BlogPostForm>();
+const blogSchema = z.object({
+  title: z.string().min(3, "Title is required"),
+  category: z.string().min(3, "Category is required"),
+  publishedDate: z.string(),
+  shortDescription: z.string().min(10, " description is required"),
+  image: z.instanceof(File).optional(),
+});
 
-  const onSubmit: SubmitHandler<BlogPostForm> = (data) => {
-    const blogPost = {
-      title: data.title,
-      shortDescription: data.shortDescription,
-      category: data.category,
-      publishedDate: data.publishedDate,
-      author: '65a1bcdef01234567890abcd',
+type BlogFormData = z.infer<typeof blogSchema>;
+
+const CreateBlog = () => {
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+    const [user, setUser] = useState<TUser | null>(null);
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<BlogFormData>({
+    resolver: zodResolver(blogSchema),
+  });
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await GetMe();
+        setUser(result?.data);
+     
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
     };
 
+    fetchData();
+  }, []);
+  console.log(user)
+  
+  const onSubmit = async (data: BlogFormData) => {
     const formData = new FormData();
-    for (const key in blogPost) {
-      formData.append(key, blogPost[key as keyof typeof blogPost]);
-    }
+    if (data.image) formData.append("file", data.image);
+    formData.append(
+      "data",
+      JSON.stringify({
+        title: data.title,
+        author:user?._id || "",
+        category: data.category,
+        publishedDate: data.publishedDate,
+        shortDescription: data.shortDescription,
+      })
+    );
 
-    // Append the image file to FormData
-    if (data.image.length > 0) {
-      formData.append('image', data.image[0]); // Upload only the first file
+    try {
+      const response =await BlogPost(formData)
+      console.log(response)
+        toast.success("Blog created successfully!");
+    } catch (error) {
+      toast.error("Something went wrong");
     }
-    
-
   };
 
   return (
-    <div className="max-w-full mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4">Create Blog Post</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" encType="multipart/form-data">
-        <div>
-          <Label htmlFor="title" className="mb-2">Title:</Label>
-          <Input id="title" type="text" {...register('title', { required: true })} />
-        </div>
-        <div>
-          <Label htmlFor="image" className="mb-2">Upload Image:</Label>
-          <Input id="image" type="file" accept="image/*" {...register('image', { required: true })} />
-        </div>
-        <div>
-          <Label htmlFor="shortDescription" className="mb-2">Description:</Label>
-          <Textarea id="shortDescription" className="h-32 w-full resize-none" {...register('shortDescription', { required: true })} />
-        </div>
-        <div>
-          <Label htmlFor="category" className="mb-2">Category:</Label>
-          <Input id="category" type="text" {...register('category', { required: true })} />
-        </div>
-        <div>
-          <Label htmlFor="publishedDate" className="mb-2">Published Date:</Label>
-          <Input id="publishedDate" type="date" {...register('publishedDate', { required: true })} />
-        </div>
-        <Button type="submit" className="w-full">Submit</Button>
-      </form>
-    </div>
+    <Card className="max-w-lg mx-auto p-6 shadow-lg">
+      <CardContent>
+        <h2 className="text-xl font-semibold mb-4">Create Blog</h2>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div>
+            <Label>Title</Label>
+            <Input {...register("title")} placeholder="Enter title" />
+            {errors.title && <p className="text-red-500">{errors.title.message}</p>}
+          </div>
+
+          <div>
+            <Label>Category</Label>
+            <Input {...register("category")} placeholder="Category" />
+            {errors.category && <p className="text-red-500">{errors.category.message}</p>}
+          </div>
+
+          <div>
+            <Label>Published Date</Label>
+            <Input type="date" {...register("publishedDate")} />
+          </div>
+
+          <div>
+            <Label>Short Description</Label>
+            <Textarea {...register("shortDescription")} placeholder="Write a short description..." />
+            {errors.shortDescription && <p className="text-red-500">{errors.shortDescription.message}</p>}
+          </div>
+
+          <div>
+            <Label>Upload Image</Label>
+            <Input
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                if (e.target.files?.[0]) {
+                  setValue("image", e.target.files[0]);
+                  setImagePreview(URL.createObjectURL(e.target.files[0]));
+                }
+              }}
+            />
+            {imagePreview && <img src={imagePreview} alt="Preview" className="mt-2 rounded-lg w-32 h-32 object-cover" />}
+          </div>
+
+          <Button type="submit">Submit</Button>
+        </form>
+      </CardContent>
+    </Card>
   );
 };
 

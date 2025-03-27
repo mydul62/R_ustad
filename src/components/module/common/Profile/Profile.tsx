@@ -14,7 +14,7 @@ import { ChangePassword } from "@/services/ChangePassword";
 const Profile = () => {
   const [user, setUser] = useState<TUser | null>(null);
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
-
+console.log(user,currentUser)
   const {
     register,
     handleSubmit,

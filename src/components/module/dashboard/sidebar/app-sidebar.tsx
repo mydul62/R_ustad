@@ -2,14 +2,17 @@
 
 import * as React from "react";
 import {
-  Bot,
-  Frame,
-  LifeBuoy,
-  Map,
-  PieChart,
-  Send,
-  Settings,
-  SquareTerminal,
+  LayoutDashboard,
+  UserPlus,
+  CalendarPlus,
+  FileText,
+  Users,
+  Sliders,
+  HelpCircle,
+  MessageSquare,
+  Briefcase,
+  ShoppingCart,
+  Globe,
 } from "lucide-react";
 
 import {
@@ -43,23 +46,28 @@ const adminRoute = {
     {
       title: "Dashboard",
       url: "/admin/dashboard",
-      icon: SquareTerminal,
+      icon: LayoutDashboard,
       isActive: true,
     },
     {
       title: "Create User",
       url: "/admin/dashboard/createassociate",
-      icon: Bot,
+      icon: UserPlus,
     },
     {
       title: "Create Events",
       url: "/admin/dashboard/createevents",
-      icon: Bot,
+      icon: CalendarPlus,
+    },
+    {
+      title: "All Blogs",
+      url: "/admin/dashboard/allblogs",
+      icon: CalendarPlus,
     },
     {
       title: "Manage Research Paper",
       url: "#",
-      icon: Settings,
+      icon: FileText,
       items: [
         {
           title: "All Research Paper",
@@ -70,7 +78,7 @@ const adminRoute = {
     {
       title: "Manage Users",
       url: "#",
-      icon: Settings,
+      icon: Users,
       items: [
         {
           title: "All Users",
@@ -85,7 +93,7 @@ const adminRoute = {
     {
       title: "Settings",
       url: "#",
-      icon: Settings,
+      icon: Sliders,
       items: [
         {
           title: "Profile",
@@ -98,31 +106,30 @@ const adminRoute = {
     {
       title: "Support",
       url: "#",
-      icon: LifeBuoy,
+      icon: HelpCircle,
     },
     {
       title: "Feedback",
       url: "#",
-      icon: Send,
+      icon: MessageSquare,
     },
   ],
   projects: [
     {
       name: "Design Engineering",
       url: "#",
-      icon: Frame,
+      icon: Briefcase,
     },
     {
       name: "Sales & Marketing",
       url: "#",
-      icon: PieChart,
+      icon: ShoppingCart,
     },
     {
       name: "Travel",
       url: "#",
-      icon: Map,
+      icon: Globe,
     },
-    
   ],
 };
 
@@ -131,38 +138,38 @@ const userRoute = {
     {
       title: "Dashboard",
       url: "/user/dashboard",
-      icon: SquareTerminal,
+      icon: LayoutDashboard,
       isActive: true,
     },
     {
       title: "Update Information",
       url: "/user/dashboard/updateinfo",
-      icon: Bot,
+      icon: UserPlus,
     },
     {
       title: "My All Papers",
       url: "/user/dashboard/mypapers",
-      icon: Bot,
+      icon: FileText,
     },
     {
       title: "Post a Blog",
       url: "/user/dashboard/createblog",
-      icon: Bot,
+      icon: CalendarPlus,
     },
     {
       title: "My All Blogs",
       url: "/user/dashboard/mypapers",
-      icon: Bot,
+      icon: FileText,
     },
     {
       title: "Add Research Paper",
       url: "/user/dashboard/addresearchpaper",
-      icon: Bot,
+      icon: FileText,
     },
     {
       title: "Settings",
       url: "#",
-      icon: Settings,
+      icon: Sliders,
       items: [
         {
           title: "Profile",
@@ -170,7 +177,6 @@ const userRoute = {
         },
       ],
     },
-    
   ],
 };
 
@@ -194,7 +200,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     return null;
   }
 
-  const data = user.role === "superAdmin" || user.role === "admin" ? adminRoute : userRoute;
+  const data =
+    user.role === "superAdmin" || user.role === "admin" ? adminRoute : userRoute;
 
   return (
     <Sidebar collapsible="icon" {...props}>
