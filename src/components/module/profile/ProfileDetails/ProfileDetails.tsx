@@ -3,10 +3,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Image from "next/image"
 import MyResearch from "../MyReseraches/MyResearch"
-import { TPapers } from "@/type"
+import { TPapers, TResearchAssociate } from "@/type"
 import OngoingProject from "../OngoingProject/OngoingProject"
 
-const ProfileDetails = ({data}:{data:TPapers[]}) => {
+const ProfileDetails = ({data,currentUser}:{data:TPapers[],currentUser:TResearchAssociate}) => {
     
      
 
@@ -17,7 +17,7 @@ const ProfileDetails = ({data}:{data:TPapers[]}) => {
       <div className="lg:w-1/4 bg-gradient-to-b from-[#f9f9f9] via-gray-50 to-gray-100 p-8 flex flex-col items-center text-center space-y-6">
         <div className="relative w-40 h-40 lg:w-48 lg:h-48 rounded-full overflow-hidden border-4 border-[#bc986b] shadow-md">
           <Image
-            src="/a_sir.png"
+            src={currentUser?.profileImg}
             alt="Profile"
             width={400}
             height={400}
@@ -25,13 +25,13 @@ const ProfileDetails = ({data}:{data:TPapers[]}) => {
           />
         </div>
         <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">
-          John Doe
+         {currentUser?.fullName}
         </h2>
         <p className="text-base sm:text-lg text-gray-600">
-          Senior Software Engineer
+      {  currentUser?.education?.institution}
         </p>
         <p className="text-sm sm:text-base text-[#bc986b] font-medium uppercase tracking-wide">
-          Tech Enthusiast | Mentor
+         {currentUser?.designation}
         </p>
       </div>
 
@@ -41,28 +41,25 @@ const ProfileDetails = ({data}:{data:TPapers[]}) => {
           About Me
         </h3>
         <p className="text-gray-700 text-base lg:text-lg leading-relaxed">
-          I am a passionate software engineer with over 8 years of experience
-          in web development and team leadership. My expertise includes
-          creating scalable solutions, mentoring developers, and driving
-          innovation in the tech space. I thrive on solving complex problems
-          and staying updated with the latest technologies.
+        {currentUser?.shortBio}
         </p>
 
         <h3 className="text-xl lg:text-2xl font-semibold text-gray-800 border-b pb-2">
           Interests
         </h3>
         <ul className="list-disc pl-5 text-gray-700 text-base lg:text-lg space-y-2">
-          <li>Building high-performance web applications</li>
-          <li>Exploring AI and machine learning</li>
-          <li>Mentoring young developers</li>
-          <li>Reading books on personal growth</li>
+        {
+           currentUser?.research.map((r,i)=>(
+            <li key={i}>{r}</li>
+           ))}
+      
         </ul>
 
         <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6">
           {/* Enhanced Buttons */}
-          <Button className="bg-gradient-to-r from-[#bc986b] to-yellow-500 text-white px-8 py-3 text-lg rounded-full shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200">
+          <a href="" className="bg-gradient-to-r from-[#bc986b] to-yellow-500 text-white px-8 py-3 text-lg rounded-full shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200">
             Contact Me
-          </Button>
+          </a>
         </div>
        
       </div>
