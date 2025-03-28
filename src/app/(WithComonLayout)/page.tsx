@@ -1,5 +1,6 @@
 "use client";
 
+import Achievement from "@/components/module/home/Achievement/Achievement";
 import BlogSection from "@/components/module/home/BlogSection/BlogSection";
 import Hero from "@/components/module/home/Hero/Hero";
 import OurTeam from "@/components/module/home/ourTeam/OurTeam";
@@ -9,13 +10,14 @@ import ResearchArea from "@/components/module/home/ResearchArea/ResearchArea";
 
 const HomePage = () => {
   return (
-    <div>
+    <div className=" space-y-8">
      <Hero/>
+     <Achievement/>
      <ResearchArea/>
      <OurTeam></OurTeam>
-     <RecentPublishSection></RecentPublishSection>
+     {/* <RecentPublishSection></RecentPublishSection> */}
      <BlogSection></BlogSection>
-     <Pricing></Pricing> 
+     {/* <Pricing></Pricing>  */}
     </div>
   );
 };

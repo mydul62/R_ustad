@@ -1,63 +1,102 @@
+"use client"; // Ensures this is a client component
 
+import { useState, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import Team from "@/components/module/home/ourTeam/Team";
 import { Input } from "@/components/ui/input";
 import { GetAllResearchAssociate } from "@/services/reserarchers";
+import { UserProfile } from "@/type";
 
-import { FaUserGraduate, FaChalkboardTeacher, FaUsersCog } from "react-icons/fa";
+const Page = () => {
+  const [data, setData] = useState<UserProfile[]>([]);
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
-const page =async () => {
-const data = await GetAllResearchAssociate()
-const ascociates = data?.data
+  // Extract search query from URL
+  const searchQuery = searchParams.get("search") || "";
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await GetAllResearchAssociate();
+      setData(response.data);
+    };
+    fetchData();
+  }, []);
+
+  // Filtering Data Based on Search Query
+  const filteredData = data.filter(
+    (associate) =>
+      associate.fullName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      associate.designation.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  // Filter by Specific Designation
+  const filterByDesignation = (designation: string) => {
+    return filteredData.filter((associate) => associate.designation === designation);
+  };
+
+  // Handle Search
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    router.push(`?search=${value}`, { scroll: false }); // Update URL
+  };
 
   return (
     <div className="relative">
-    {/* Hero Section */}
-    <div
-      style={{
-        backgroundImage: 'url("/teambg.jpg")',
-        backgroundPosition: "bottom",
-        backgroundRepeat: "no-repeat",
-        backgroundAttachment: "fixed",
-      backgroundSize: "cover"
-      }}
-      className="py-[200px] flex justify-center items-center flex-col"
-    >
-      <h2 className="text-5xl flex justify-center text-white gap-2 items-center font-bold mb-4 text-center">
-        <span>
+      {/* Hero Section */}
+      <div
+        style={{
+          backgroundImage: 'url("/teambg.jpg")',
+          backgroundPosition: "bottom",
+          backgroundRepeat: "no-repeat",
+          backgroundAttachment: "fixed",
+          backgroundSize: "cover",
+        }}
+        className="py-[200px] flex justify-center items-center flex-col"
+      >
+        <h2 className="text-5xl text-white font-bold mb-4 text-center">
           Our <span className="text-yellow-500">Team Members</span>
-        </span>
-      </h2>
-      <div className="text-white flex gap-3">
-        <a href="/home" className="text-white hover:text-green-500">
-          HOME
-        </a>
-        <span>/</span>
-        <span className="uppercase">Team-member</span>
+        </h2>
+        <div className="text-white flex gap-3">
+          <a href="/home" className="text-white hover:text-green-500">HOME</a>
+          <span>/</span>
+          <span className="uppercase">Team-member</span>
+        </div>
+      </div>
+
+      <div className="container mx-auto py-10">
+        {/* Search Input */}
+        <div className="flex justify-end mb-6">
+          <Input
+            className="w-64"
+            placeholder="Search Name or Designation"
+            value={searchQuery}
+            onChange={handleSearch}
+          />
+        </div>
+
+        {/* Team Sections */}
+        <div className="grid grid-cols-1 gap-10">
+          {[
+            { title: "Our Advisor", key: "Advisor" },
+            { title: "Our Lead Members", key: "Lead" },
+            { title: "Our Research Associates", key: "Research_Associate" },
+            { title: "Mentor Panel", key: "Mentor_Panel" },
+          ].map(({ title, key }) => {
+            const members = filterByDesignation(key);
+            return (
+              <div key={key}>
+               {members.length > 0 && <h3 className="text-3xl font-semibold mb-5">{title}</h3>}
+                {members.length > 0 &&
+                  <Team allMembers={members} />
+                  }
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
+  );
+};
 
-    <div className="flex container gap-5 mx-auto py-10">
-  
-      {/* Main Content */}
-      <div className="flex-1  py-4">
-        <div id="advisor-pannel" className="container w-[90%] mx-auto ">
-        <div className="flex justify-between items-center  mb-11 ">
-       <div>
-       <h3 className=" text-3xl font-semibold">Our Team</h3>
-       </div>
-        <div className="">
-        <Input className=" w-64"  placeholder="Search here"></Input>
-        </div>
-        {/* search field */}
-        </div>
-          <Team  allMembers={ascociates}/>
-        </div>
-    
-      </div>
-    </div>
-  </div>
-  
-  )
-}
-
-export default page
+export default Page;

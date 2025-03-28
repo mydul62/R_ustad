@@ -1,83 +1,53 @@
-export const blogPosts = [
+import { IPost } from "@/type";
+
+const blogPosts:IPost[] = [
   {
-    _id: "1",
-    title: "What do you want to know about UI",
-    author: "Tom Hank",
-    role: "Creative Director",
-    image: "/01.png",
-    avatar: "/02.png",
-    excerpt: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis fugit dolorum amet dolores praesentium.",
+    _id: "123",
+    image: "/01.png", // Relative path from the public folder
+    title: "The Future of Web Development",
+    author: {
+      _id:'1',
+      name: "John Doe",
+      designation: "Senior Web Developer",
+      image: "/02.png",
+      fullName:"junayet shiblu"
+    },
+    shortDescription: "Explore the latest trends in web development, including AI, serverless computing, and the rise of JavaScript frameworks.",
+    category: "Technology",
   },
   {
-    _id: "2",
-    title: "All the features you want to know",
-    author: "Arthur Melo",
-    role: "Creative Director",
+    _id: "124",
+
     image: "/02.png",
-    avatar: "/01.png",
-    excerpt: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis fugit dolorum amet dolores praesentium.",
+    title: "UI/UX Design Principles",
+    author: {
+      _id:'2',
+      name: "Jane Smith",
+      designation: "UI/UX Designer",
+      image: "/01.png",
+      fullName:"junayet shiblu"
+
+    },
+    shortDescription: "Learn the essential UI/UX design principles that can improve user experience and increase engagement.",
+    category: "Design",
   },
   {
-    _id: "3",
-    title: "Which services you get from Meraki UI",
-    author: "Amelia Anderson",
-    role: "Lead Developer",
-    image: "/02.png",
-    avatar: "/01.png",
-    excerpt: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis fugit dolorum amet dolores praesentium.",
-  },
-  {
-    _id: "4",
-    title: "How to improve your UX skills",
-    author: "Jake Peralta",
-    role: "UI/UX Designer",
-    image: "/04.png",
-    avatar: "/03.png",
-    excerpt: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis fugit dolorum amet dolores praesentium.",
-  },
-  {
-    _id: "5",
-    title: "Best practices for frontend development",
-    author: "Amy Santiago",
-    role: "Senior Frontend Developer",
-    image: "/03.png",
-    avatar: "/05.png",
-    excerpt: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis fugit dolorum amet dolores praesentium.",
-  },
-  {
-    _id: "6",
-    title: "Why design systems matter",
-    author: "Rosa Diaz",
-    role: "Design Lead",
-    image: "/06.png",
-    avatar: "/02.png",
-    excerpt: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis fugit dolorum amet dolores praesentium.",
-  },
-  {
-    _id: "7",
-    title: "Accessibility in modern web apps",
-    author: "Charles Boyle",
-    role: "Web Accessibility Expert",
+    _id: "125",
+
     image: "/01.png",
-    avatar: "/04.png",
-    excerpt: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis fugit dolorum amet dolores praesentium.",
-  },
-  {
-    _id: "8",
-    title: "The future of AI in UI design",
-    author: "Terry Jeffords",
-    role: "AI Researcher",
-    image: "/05.png",
-    avatar: "/06.png",
-    excerpt: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis fugit dolorum amet dolores praesentium.",
-  },
-  {
-    _id: "9",
-    title: "Understanding micro-interactions",
-    author: "Gina Linetti",
-    role: "Creative Strategist",
-    image: "/07.png",
-    avatar: "/08.png",
-    excerpt: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis fugit dolorum amet dolores praesentium.",
-  },
+    title: "Introduction to TypeScript",
+    author: {
+      _id:'1',
+      name: "Alex Johnson",
+      designation: "Software Engineer",
+      image: "/02.png",
+      fullName:"junayet shiblu"
+
+
+    },
+    shortDescription: "A beginner-friendly guide to understanding TypeScript and how it enhances JavaScript development.",
+    category: "Programming",
+  }
 ];
+
+export default blogPosts;

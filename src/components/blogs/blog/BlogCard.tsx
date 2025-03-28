@@ -1,9 +1,11 @@
 
-import { TPost } from "@/type"
+import { IPost} from "@/type"
 import Image from "next/image"
 import Link from "next/link"
-
-const BlogCard = ({post}:{post:TPost}) => {
+interface BlogCardProps {
+  post: IPost;
+}
+const BlogCard: React.FC<BlogCardProps> = ({ post }) => {
 console.log(post)
   return (
      <div >
@@ -26,7 +28,7 @@ console.log(post)
                       /> */}
                       <div className="mx-4">
                         <h1 className="text-sm text-gray-700 dark:text-gray-200">{post?.author?.fullName}</h1>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">{post?.author?.role}</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">{post?.author?.designation}</p>
                       </div>
                     </div>
                   </div>

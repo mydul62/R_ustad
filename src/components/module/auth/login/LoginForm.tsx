@@ -17,6 +17,8 @@ import { loginSchema } from "./loginValidation";
 import { useState } from "react";
 import { loginUser } from "@/services/AuthService";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import image1 from "../../../../../public/logo.png";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -52,11 +54,12 @@ export default function LoginForm() {
 
   return (
     <div className="border-2 border-gray-300 rounded-xl flex-grow max-w-md w-full p-5">
-      <div className="flex items-center space-x-4 ">
-        <Logo />
+      <div className="flex items-center">
+      <Image className="" src={image1} width={80} height={50} alt="logo"></Image>
         <div>
           <h1 className="text-xl font-semibold">Login</h1>
-          <p className="font-extralight text-sm text-gray-600">Welcome back!</p>
+          <p className="font-extralight text-sm text-gray-600">Welcome Research
+          Ustad Website!</p>
         </div>
       </div>
       <Form {...form}>
@@ -91,7 +94,7 @@ export default function LoginForm() {
 
           <Button
             type="submit"
-            className="mt-5 w-full"
+            className="mt-5 w-full cursor-pointer"
           >
             {isSubmitting ? "Logging...." : "Login"}
           </Button>

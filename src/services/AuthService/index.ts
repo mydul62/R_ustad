@@ -25,6 +25,7 @@ export const registerUser = async (data:any) => {
 try {
   const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/auth/login`, {
     method: "POST",
+    credentials: 'include',
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });

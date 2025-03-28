@@ -120,14 +120,14 @@ export function DroopDown() {
         <NavigationMenuItem>
           <Link href="/blog" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Our Events & news
+              Blog
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link href="/contact" legacyBehavior passHref>
+          <Link href="/event&course" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-             Contact Us
+              Event & Course
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>

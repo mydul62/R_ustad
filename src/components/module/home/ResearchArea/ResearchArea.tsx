@@ -13,7 +13,8 @@ import { researchAreas } from "@/components/shared/data/researchArea";
 
 const   ResearchArea = () => {
   return (
-    <div className="py-[80px] container sm:w-[90%] mx-auto">
+ <div className=" container sm:w-[90%] mx-auto">
+     <div className=" md:mx-0 mx-2">
       <SectionTitle title="Our Research Areas"  discription={"Meet our outstanding team of research associates who are dedicated to excellence."}/>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mt-8">
         {researchAreas?.map((area,i) => {
@@ -29,7 +30,7 @@ const   ResearchArea = () => {
               <CardContent>
                 <div className="space-y-3">
                   <Icon size={40} />
-                  <h3 className="text-2xl font-bold ">{area.title}</h3>
+                  <h3 className="text-xl font-semibold ">{area.title}</h3>
                   <p>{area.description}</p>
                 </div>
       
@@ -42,6 +43,7 @@ const   ResearchArea = () => {
         })}
       </div>
     </div>
+ </div>
   );
 };
 

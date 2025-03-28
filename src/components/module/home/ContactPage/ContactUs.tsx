@@ -46,27 +46,27 @@ export default function AboutContactPage() {
             </div>
             <div className="flex items-center space-x-4 text-gray-700">
               <Mail className="w-6 h-6 text-blue-600" />
-              <span>info@research-team.com</span>
+              <span>info@researchustad.org</span>
             </div>
             <div className="flex items-center space-x-4 text-gray-700">
               <MapPin className="w-6 h-6 text-blue-600" />
-              <span>Savar, Nabinagar, Dhaka</span>
+              <span> Nabinagar,Savar, Dhaka</span>
             </div>
           </div>
 
           {/* Social Media Icons */}
           <div className="mt-8 flex space-x-4">
-            <Link href="#" className="p-3 bg-blue-600 text-white rounded-full shadow-md hover:bg-blue-700 transition">
+            <Link href="https://www.facebook.com/ResearchUstad" className="p-3 bg-blue-600 text-white rounded-full shadow-md hover:bg-blue-700 transition">
               <FaFacebookF className="w-5 h-5" />
             </Link>
-            <Link href="#" className="p-3 bg-green-500 text-white rounded-full shadow-md hover:bg-green-600 transition">
+            <Link href="www.youtube.com/@ResearchUstad" className="p-3 bg-green-500 text-white rounded-full shadow-md hover:bg-green-600 transition">
               <FaWhatsapp className="w-5 h-5" />
             </Link>
-            <Link href="#" className="p-3 bg-blue-800 text-white rounded-full shadow-md hover:bg-blue-900 transition">
+            <Link href="www.linkedin.com/company/researchustad" className="p-3 bg-blue-800 text-white rounded-full shadow-md hover:bg-blue-900 transition">
               <FaLinkedinIn className="w-5 h-5" />
             </Link>
-            <Link href="#" className="p-3 bg-blue-400 text-white rounded-full shadow-md hover:bg-blue-500 transition">
-              <FaTwitter className="w-5 h-5" />
+            <Link href="www.facebook.com/groups/research.ustadbd" className="p-3 bg-blue-600 text-white rounded-full shadow-md hover:bg-blue-700 transition">
+              <FaFacebookF className="w-5 h-5" />
             </Link>
           </div>
         </div>

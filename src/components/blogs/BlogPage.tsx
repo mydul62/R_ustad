@@ -1,15 +1,16 @@
 "use client"
 import Image from "next/image";
 import BlogCard from "./blog/BlogCard";
-import { blogPosts } from "./data";
-import { TPost } from "@/type";
+import { IPost } from "@/type";
+import blogPosts from "./data";
 
 
 
 
 
 
-const BlogPage = ({data}:{data:TPost}) => {
+
+const BlogPage = ({data}:{data:IPost}) => {
   return (
     <section className="bg-white dark:bg-gray-900">
       <div className="container w-[90%] px-6 py-10 mx-auto">
@@ -24,7 +25,7 @@ const BlogPage = ({data}:{data:TPost}) => {
 
         <div className="grid grid-cols-1 gap-8 mt-8 md:mt-16 md:grid-cols-2 xl:grid-cols-3">
           {blogPosts.map((post, index) => (
-            <BlogCard key={index} post={data}/>
+            <BlogCard key={index} post={post}/>
           ))}
         </div>
       </div>

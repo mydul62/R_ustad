@@ -1,62 +1,49 @@
 "use client"
-import { Button } from "@/components/ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Trash2, ShieldCheck } from "lucide-react";
+import ManageTable from "@/components/shared/ManageTable/ManageTable";
+import { GetAllUsers, PromoteRole } from "@/services/Users";
 import { TUser } from "@/type";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { PromoteRole } from "@/services/Users";
 
-const AllUsers = ({users}:{users:TUser[]}) => {
+const ManageAllUser = () => {
+  const [loading, setLoading] = useState<boolean>(true);
+  const [data, setData] = useState<TUser[]>([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await GetAllUsers()       
+         setData(response?.data || []);
+      } catch (error) {
+        console.error("Error fetching research papers:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
+    fetchData();
+  }, []);
+  const columns = [
+    { label: "Name", value: "fullName" },
+    { label: "Email", value: "email" },
+    { label: "Role", value: "role" }, 
 
-  const handleRoleChange = async (id:string, currentRole:string) => {
- try {
-  if(currentRole =="superAdmin"){
-    toast.error('superAdmin can not be change');
-    return
-    }
-  if(currentRole =="user" || currentRole ==="admin"){
-    const res = await PromoteRole(id);
-   if(res.data){
-   console.log(res.data.role)
-   toast.success(`Promoted ${res?.data?.fullName} to ${res?.data?.role}`);
-   }
-  }
- } catch (error) {
-  console.log(error)
- }
-    
-    
- 
-  };
+  ];
+const handledeleted= async()=>{
+  console.log("hellow rld");
+}
+
 
   return (
-    <div className="p-4">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Role</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          { users?.length>0 && users?.map((user:TUser) => (
-            <TableRow key={user._id}>
-              <TableCell>{user.fullName}</TableCell>
-              <TableCell>{user.email}</TableCell>
-              <TableCell>{user.role}</TableCell>
-              <TableCell className="flex gap-2">
-                <Button variant="outline" size="sm" onClick={() => handleRoleChange(user?._id,user?.role)}>
-                  <ShieldCheck className="w-4 h-4" /> {user.role === "admin" ? "Promot to User" : "Promote to Admin"}
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+    <div className=" lg:w-[990px]">
+      <ManageTable
+        data={data} 
+        isvalue="userRole" 
+        columns={columns} 
+        loading={loading} 
+        onDelete={handledeleted}
+      />
     </div>
   );
 };
 
-export default AllUsers;
+export default ManageAllUser;

@@ -1,14 +1,12 @@
-import AllUsers from "@/components/module/users/Allusers/AllUsers"
-import { GetAllUsers } from "@/services/Users"
+import ManageAllUser from "@/components/module/users/Allusers/AllUsers";
 
-const page = async() => {
-const {data} = await GetAllUsers()
+const ManageUser = async () => {
 
   return (
-    <div>
-    <AllUsers users = {data}/>
+    <div className="">
+      <ManageAllUser/>
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default ManageUser;

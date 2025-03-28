@@ -17,6 +17,7 @@ import { DroopDown } from "@/components/ui/core/DropDown/DropDown";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { GetMe } from "@/services/singleUser";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 const navLinks = [
   { name: "Home", href: "/" },
   { 
@@ -45,7 +46,7 @@ const links: NavItem[] = [
 ];
 
 const Navbar = () => {
-
+  const [scrolling, setScrolling] = useState(false);
   const [open, setOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [user, setData] = useState(null);
@@ -60,6 +61,20 @@ const Navbar = () => {
     };
 
     fetchData();
+  }, []);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setScrolling(true);
+      } else {
+        setScrolling(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []); 
   const handleLogOut = () => {
     logout();
@@ -67,7 +82,11 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white sticky top-0 z-50">
+    <nav className={`sticky top-0 z-50 ${
+      scrolling
+        ? "bg-white shadow-md backdrop-blur-md"
+        : "bg-white"
+    }`}>
       <div className="container sm:w-[90%] mx-auto hidden lg:flex  justify-between items-center py-4">
         <Link href="/">
           <h2 className="font-bold text-[22px] flex">
@@ -92,11 +111,12 @@ const Navbar = () => {
 
             <DropdownMenuContent>
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
+            {user && <DropdownMenuSeparator />}
+              {user &&
               <DropdownMenuItem>
-              {user &&  <Link href={`/admin/dashboard`}>Dashboard</Link>}
-   
+             <Link href={`/admin/dashboard`}>Dashboard</Link>
               </DropdownMenuItem>
+               }
               <DropdownMenuSeparator />
               <DropdownMenuItem className="bg-red-500 cursor-pointer">
                {
@@ -111,9 +131,32 @@ const Navbar = () => {
     <div className="p-4 lg:hidden block bg-white shadow-md">
       <div className="flex justify-between items-center">
         <h1 className="text-lg font-bold">Research<span className="text-yellow-600">Ustad</span></h1>
-       <div className="flex items-center justify-end gap-4">
-       <Sheet open={open} onOpenChange={setOpen}>
-          <SheetTrigger className="p-2 focus:outline-none">
+ <div className="flex justify-center items-center gap-4">
+ <DropdownMenu>
+            <DropdownMenuTrigger title="User">
+            <AiOutlineLogin size={24}/>
+            </DropdownMenuTrigger>
+
+            <DropdownMenuContent>
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            {user && <DropdownMenuSeparator />}
+              {user &&
+              <DropdownMenuItem>
+             <Link href={`/admin/dashboard`}>Dashboard</Link>
+              </DropdownMenuItem>
+               }
+              <DropdownMenuSeparator />
+              <DropdownMenuItem className="bg-red-500 cursor-pointer">
+               {
+               user?<span onClick={handleLogOut}>Logout</span>: <Link href={"/login"}>Login</Link>
+               }
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
+ <div className="flex items-center justify-end gap-4">
+  
+        <Sheet open={open} onOpenChange={setOpen}>
+          <SheetTrigger className=" focus:outline-none">
             {open ? <X size={24} /> : <Menu size={24} />}
           </SheetTrigger>
           <SheetContent side="left" className="w-64 p-4">
@@ -150,23 +193,8 @@ const Navbar = () => {
           </SheetContent>
         </Sheet>
         <div>
-        <DropdownMenu>
-            <DropdownMenuTrigger title="User">
-            <AiOutlineLogin size={30}/>
-            </DropdownMenuTrigger>
-
-            <DropdownMenuContent>
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-              {user &&  <Link href={`/admin/dashboard`}>Dashboard</Link>}
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem className="bg-red-500 cursor-pointer">
-                <Link href={"/login"}>Login</Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+      
+ </div>
         </div>
        </div>
       </div>

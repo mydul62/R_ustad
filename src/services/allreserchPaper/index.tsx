@@ -1,5 +1,6 @@
 "use server"
 
+import { ResearchPaperForm } from "@/components/module/userRoutes/AddResearchpaper/AddResearchPaper";
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
@@ -8,6 +9,32 @@ import { cookies } from "next/headers";
       const cookieStore = await cookies();
       let token = cookieStore.get("accessToken")!.value;
       const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/paper/all`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization":token,
+        },
+        next: {
+          tags: ["paper"],
+        
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Request failed with status: ${response.status}`);
+      }
+  
+      return await response.json();
+    } catch (error) {
+      console.error("Error fetching research associates:", error);
+      return null;
+    }
+  };
+  export const GetAllResearchPaperMy = async () => {
+    try {
+      const cookieStore = await cookies();
+      let token = cookieStore.get("accessToken")!.value;
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/paper/personalPaper`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -136,3 +163,27 @@ import { cookies } from "next/headers";
       return null;
     }
   };
+
+export const PostResearchPaper = async (formData: ResearchPaperForm) => {
+  try {
+    const cookieStore = await cookies();
+    let token = cookieStore.get("accessToken")!.value;
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/paper/add`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": token,
+      },
+      body: JSON.stringify(formData),
+    });
+
+    // if (!response.ok) {
+    //   throw new Error(`Request failed with status: ${response.status}`);
+    // }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error posting research paper:", error);
+    throw error; // Re-throwing the error to be handled in the component
+  }
+};

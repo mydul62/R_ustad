@@ -1,49 +1,53 @@
-// JSON data
 import {
-  AiOutlineLineChart,
-  AiOutlineCode,
-  AiOutlineExperiment,
-  AiOutlineSafety,
+  AiOutlineRobot,
+  AiOutlineCloud,
+  AiOutlineMedicineBox,
+  AiOutlineSecurityScan,
+  AiOutlineGlobal,
+  AiOutlineDatabase,
 } from "react-icons/ai";
-
 
 export const researchAreas = [
   {
     id: 1,
-    icon: AiOutlineLineChart,
-    title: "AI & Machine Learning",
+    icon: AiOutlineRobot,
+    title: "Artificial Intelligence & Machine Learning",
     description:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Obcaecati, laudantium!",
+      "Advancing AI algorithms and models to revolutionize automation, healthcare, and problem-solving.",
   },
   {
     id: 2,
-    icon: AiOutlineCode,
-    title: "Software Engineering",
+    icon: AiOutlineCloud,
+    title: "Cloud Computing & Big Data",
     description:
-      "Building reliable and scalable software solutions for modern challenges.",
+      "Developing scalable cloud infrastructure and data analytics for high-performance computing.",
   },
   {
     id: 3,
-    icon: AiOutlineExperiment,
-    title: "Biomedical Research",
-    description: "Advancing healthcare with cutting-edge research and innovation.",
+    icon: AiOutlineMedicineBox,
+    title: "Biomedical & Genetic Research",
+    description:
+      "Exploring innovations in healthcare, biotechnology, and genetic engineering to improve human well-being.",
   },
   {
     id: 4,
-    icon: AiOutlineSafety,
-    title: "Network Security",
-    description: "Ensuring the safety and integrity of data in connected systems.",
+    icon: AiOutlineSecurityScan,
+    title: "Cybersecurity & Cryptography",
+    description:
+      "Enhancing digital security, encryption techniques, and privacy measures to protect online data.",
   },
   {
-    id: 4,
-    icon: AiOutlineSafety,
-    title: "Network Security",
-    description: "Ensuring the safety and integrity of data in connected systems.",
+    id: 5,
+    icon: AiOutlineGlobal,
+    title: "Climate Change & Renewable Energy",
+    description:
+      "Developing sustainable energy solutions and researching climate change mitigation strategies.",
   },
   {
-    id: 4,
-    icon: AiOutlineSafety,
-    title: "Network Security",
-    description: "Ensuring the safety and integrity of data in connected systems.",
+    id: 6,
+    icon: AiOutlineDatabase,
+    title: "Quantum Computing & Blockchain",
+    description:
+      "Pushing the limits of computation with quantum mechanics and decentralized technologies.",
   },
 ];

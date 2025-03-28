@@ -1,69 +1,122 @@
 "use client";
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import React from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-
-interface BlogPostForm {
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { BlogPost } from "@/services/blogs";
+import { UploadCloud, X, Loader2 } from "lucide-react";
+import Image from "next/image";
+import React, { useState } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { toast } from "sonner";
+export interface BlogPostForm {
   title: string;
-  image: FileList; // Accepts files instead of a URL
+  image?: string; 
   shortDescription: string;
-  category: string;
-  publishedDate: string;
 }
 
 const CreateBlog: React.FC = () => {
-  const { register, handleSubmit } = useForm<BlogPostForm>();
-
-  const onSubmit: SubmitHandler<BlogPostForm> = (data) => {
+  const { register, handleSubmit, reset } = useForm<BlogPostForm>();
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [imageURL, setImageURL] = useState<string>(""); 
+  const [isUploading, setIsUploading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    setIsUploading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "Clooud_Gen");
+    try {
+      const response = await fetch("https://api.cloudinary.com/v1_1/dztxlecbe/image/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await response.json();
+      setPreviewImage(data.secure_url);
+      setImageURL(data.secure_url);
+    } catch (error) {
+      toast.error("Image upload failed!");
+    } finally {
+      setIsUploading(false);
+    }
+  };
+  const removeImage = () => {
+    setPreviewImage(null);
+    setImageURL("");
+  };
+  const onSubmit: SubmitHandler<BlogPostForm> = async (data) => {
     const blogPost = {
       title: data.title,
       shortDescription: data.shortDescription,
-      category: data.category,
-      publishedDate: data.publishedDate,
-      author: '65a1bcdef01234567890abcd',
+      image: imageURL, 
     };
 
-    const formData = new FormData();
-    for (const key in blogPost) {
-      formData.append(key, blogPost[key as keyof typeof blogPost]);
+    try {
+      setIsLoading(true);
+      await BlogPost(blogPost);
+      reset(); 
+      setPreviewImage(null);
+      setImageURL('');
+      toast.success("Blog post created successfully!");
+    } catch (err: any) {
+      toast.error(err.message);
+    } finally {
+      setIsLoading(false);
     }
-
-    // Append the image file to FormData
-    if (data.image.length > 0) {
-      formData.append('image', data.image[0]); // Upload only the first file
-    }
-    
-
   };
 
   return (
     <div className="max-w-full mx-auto p-4">
       <h2 className="text-2xl font-bold mb-4">Create Blog Post</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" encType="multipart/form-data">
-        <div>
-          <Label htmlFor="title" className="mb-2">Title:</Label>
-          <Input id="title" type="text" {...register('title', { required: true })} />
+        <div className="border p-4 rounded-lg my-5">
+          <Label>Upload Image</Label>
+          <label className="flex items-center gap-2 cursor-pointer">
+            <UploadCloud />
+            <input type="file" onChange={handleImageUpload} className="hidden" />
+          </label>
+          {isUploading && <div className="w-full h-[400px] bg-gray-200 animate-pulse rounded"></div>}
+          {previewImage && (
+            <div className="relative w-full h-[400px] border rounded mt-3">
+              <Image src={previewImage} alt="Preview" fill className="w-full h-full object-cover rounded" />
+              <button
+                type="button"
+                className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full"
+                onClick={removeImage}
+              >
+                <X size={16} />
+              </button>
+            </div>
+          )}
         </div>
         <div>
-          <Label htmlFor="image" className="mb-2">Upload Image:</Label>
-          <Input id="image" type="file" accept="image/*" {...register('image', { required: true })} />
+          <Label htmlFor="title" className="mb-2">
+            Title:
+          </Label>
+          <Input placeholder="Enter your Title" id="title" type="text" {...register("title", { required: true })} />
         </div>
-        <div>
-          <Label htmlFor="shortDescription" className="mb-2">Description:</Label>
-          <Textarea id="shortDescription" className="h-32 w-full resize-none" {...register('shortDescription', { required: true })} />
+      <div>
+          <Label htmlFor="shortDescription" className="mb-2">
+            Description:
+          </Label>
+          <Textarea
+            id="shortDescription"
+            className="h-32 w-full resize-none"
+            {...register("shortDescription", { required: true })}
+          />
         </div>
-        <div>
-          <Label htmlFor="category" className="mb-2">Category:</Label>
-          <Input id="category" type="text" {...register('category', { required: true })} />
-        </div>
-        <div>
-          <Label htmlFor="publishedDate" className="mb-2">Published Date:</Label>
-          <Input id="publishedDate" type="date" {...register('publishedDate', { required: true })} />
-        </div>
-        <Button type="submit" className="w-full">Submit</Button>
+
+        <Button type="submit" className="w-full flex items-center justify-center" disabled={isLoading}>
+          {isLoading ? (
+            <>
+              <Loader2 className="animate-spin mr-2" size={18} /> Submitting...
+            </>
+          ) : (
+            "Submit"
+          )}
+        </Button>
       </form>
     </div>
   );

@@ -74,6 +74,8 @@ export interface UserProfile {
   };
   education: Education;
   socialLinks: SocialLinks;
+  designation: string;
+
 }
 export interface TUser {
  _id: string;
@@ -84,6 +86,7 @@ export interface TUser {
   status: string;
   role: string;
   isDeleted: boolean;
+  image:string
   createdAt: string;
   updatedAt: string;
   __v: number;
@@ -105,17 +108,23 @@ interface Author {
   __v: number;
 }
 
-export type TPost ={
+interface Authors {
   _id: string;
-  title: string;
-  author: Author;
+  name: string;
+  designation: string;
   image: string;
-  shortDescription: string;
+  email?: string; // Mark as optional
+  fullName?: string;
+}
+
+
+export interface IPost {
+  _id:string
+  image: string;
+  title: string;
+  author: Authors;
+  shortDescription: string
   category: string;
-  publishedDate: string;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
 }
 
 

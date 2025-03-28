@@ -1,12 +1,10 @@
 
-import ResearchPapers from "@/components/module/ResearchPapers/ResearchPapers";
-
+import AllreserchPaperAdmin from "@/components/module/ResearchPapers/AllReaserchPaperAdmin";
 const ResearchPapersPage = async () => {
 
   return (
     <div className="">
-      
-      <ResearchPapers></ResearchPapers>
+      <AllreserchPaperAdmin/>
     </div>
   );
 };

@@ -14,7 +14,7 @@ import { ChangePassword } from "@/services/ChangePassword";
 const Profile = () => {
   const [user, setUser] = useState<TUser | null>(null);
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
-
+console.log(user);
   const {
     register,
     handleSubmit,
@@ -50,16 +50,25 @@ const Profile = () => {
 
   return (
     <div className=" flex justify-center items-center bg-gray-100 p-6">
-      <Card className="w-full max-w-5xl shadow-xl rounded-lg bg-white flex flex-col md:flex-row overflow-hidden">
+      <Card className="w-full max-w-5xl shadow-xl rounded-md bg-white flex flex-col md:flex-row overflow-hidden">
         {/* Sidebar */}
-        <div className="w-full md:w-2/5 bg-gradient-to-r from-blue-600 to-blue-400 text-white p-8 flex flex-col items-center rounded-t-lg md:rounded-l-lg md:rounded-tr-none">
-          <Avatar className="w-24 h-24 border-4 border-white shadow-md">
-            <AvatarImage src="https://via.placeholder.com/150" alt="Profile" />
-            <AvatarFallback className="text-2xl font-bold">AI</AvatarFallback>
-          </Avatar>
+        <div className="w-full md:w-2/5 border mx-5  shadow-xl  text-gray-600 p-8 flex flex-col items-center rounded-t-lg md:rounded-l-lg md:rounded-tr-none">
+        <Avatar className="w-24 h-24 border-4 mt-8 border-white shadow-md">
+        {/* Check if imageUrl is available */}
+        {user?.image ? (
+          <AvatarImage src={user.image} alt={user.role} />
+        ) : (
+          // If imageUrl is not available, show the fallback (initials)
+          <AvatarFallback className="text-2xl font-bold">
+            {user?.fullName.charAt(0).toUpperCase()}
+          </AvatarFallback>
+        )}
+      </Avatar>
           <CardTitle className="text-2xl mt-4 text-center font-semibold">{user?.fullName}</CardTitle>
-          <p className="text-gray-200 text-lg text-center mt-1">{user?.role}</p>
-          <p className="text-gray-300 text-sm text-center mt-2">{user?.email}</p>
+          <p className=" text-lg text-center mt-1"> <span className=" font-semibold"> Role: </span> {user?.role}</p>
+          <p className=" text-sm text-center mt-2"> <span className=" font-semibold"> Email: </span> {user?.email}</p>
+          <p className=" text-sm text-center mt-2"> <span className=" font-semibold"> Designation: </span> {user?.designation}</p>
+
         </div>
 
         {/* Main Content */}
@@ -118,7 +127,7 @@ const Profile = () => {
               </div>
 
               {/* Submit Button */}
-              <Button type="submit" className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md">
+              <Button type="submit" className="w-full cursor-pointer bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md">
                 Change Password
               </Button>
             </form>
