@@ -6,7 +6,7 @@ const Hero = () => {
   return (
     <div
       style={{
-        backgroundImage: 'url("/hro.png")',
+        backgroundImage: 'url("./cover_2.png")',
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         backgroundPosition: "center",
@@ -14,7 +14,7 @@ const Hero = () => {
       className="w-full min-h-[600px] lg:h-[calc(100vh-86px)] relative border-b-[10px] border-[#bc986b] overflow-hidden"
     >
       {/* Content Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-transparent text-white z-10 flex items-center">
+      {/* <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-transparent text-white z-10 flex items-center">
         <div className="container w-[90%] mx-auto h-full flex flex-col justify-center items-end text-right px-4 sm:px-6">
           <div className="max-w-[500px] space-y-4 animate-fadeIn">
             <h2 className="text-[28px] sm:text-[36px] md:text-[42px] lg:text-[50px] font-bold leading-tight">
@@ -33,7 +33,7 @@ const Hero = () => {
             </Button>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

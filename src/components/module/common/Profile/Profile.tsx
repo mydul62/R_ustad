@@ -118,7 +118,7 @@ console.log(user,currentUser)
               </div>
 
               {/* Submit Button */}
-              <Button type="submit" className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md">
+              <Button type="submit" className="w-full cursor-pointer bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md">
                 Change Password
               </Button>
             </form>

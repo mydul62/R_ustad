@@ -1,22 +1,33 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { DialogFooter } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { GetSingleMember, GetSinglePersonalMember, UpdateMember, UpdatePersonalMember } from "@/services/reserarchers";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Loader2 } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
+const formSchema = z.object({
+  currentInstitution: z.string().min(2, "Institution name is required"),
+  currentDepartment: z.string().min(2, "Department is required"),
+  currentDegree: z.string().min(2, "Degree is required"),
+  educationDegree: z.string().min(2, "Education degree is required"),
+  educationField: z.string().min(2, "Field of study is required"),
+  educationInstitution: z.string().min(2, "Institution is required"),
+  educationStatus: z.string().min(2, "Education status is required"),
+  scholarship: z.string().optional(),
+  shortBio: z.string().min(10, "Short bio must be at least 10 characters"),
+  facebook: z.string().url("Invalid URL format").optional(),
+  twitter: z.string().url("Invalid URL format").optional(),
+  linkedin: z.string().url("Invalid URL format").optional(),
+});
 
-// Define form data structure
 interface FormData {
-  fullName: string;
-  email: string;
-  contactNo: string;
-  designation: string;
   currentInstitution?: string;
   currentDepartment?: string;
   currentDegree?: string;
@@ -29,175 +40,199 @@ interface FormData {
   facebook?: string;
   twitter?: string;
   linkedin?: string;
-  file?: FileList;
 }
 
-// Placeholder function for API call
-const registerUser = async (formData: FormData) => {
-  console.log("Registering user with data:", formData);
-  return new Promise((resolve) => setTimeout(resolve, 1000));
-};
+interface MemberData {
+  current?: {
+    institution: string;
+    department: string;
+    degree: string;
+  };
+  education?: {
+    degree: string;
+    field: string;
+    institution: string;
+    status: string;
+    scholarship: string;
+  };
+  research?: string[];
+  shortBio: string;
+  socialLinks?: {
+    facebook: string;
+    twitter: string;
+    linkedin: string;
+  };
+}
 
 const UpdateInfo = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>();
+  const [data, setMember] = useState<MemberData | null>(null);
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormData>({
+    resolver: zodResolver(formSchema),
+  });
 
-  const [researchWorks, setResearchWorks] = useState<string[]>([""]);
+  useEffect(() => {
+    const fetchMember = async () => {
+      setLoading(true);
+      try {
+        const { data } = await GetSinglePersonalMember();
+        setMember(data);
 
-  const handleAddResearch = () => {
-    setResearchWorks([...researchWorks, ""]);
-  };
+        // Populate default values in the form
+        setValue("currentInstitution", data?.current?.institution || "");
+        setValue("currentDepartment", data?.current?.department || "");
+        setValue("currentDegree", data?.current?.degree || "");
+        setValue("educationDegree", data?.education?.degree || "");
+        setValue("educationField", data?.education?.field || "");
+        setValue("educationInstitution", data?.education?.institution || "");
+        setValue("educationStatus", data?.education?.status || "Ongoing");
+        setValue("scholarship", data?.education?.scholarship || "");
+        setValue("shortBio", data?.shortBio || "N/A");
+        setValue("facebook", data?.socialLinks?.facebook || "");
+        setValue("twitter", data?.socialLinks?.twitter || "");
+        setValue("linkedin", data?.socialLinks?.linkedin || "");
+      } catch (error) {
+        console.error("Error fetching member:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const handleResearchChange = (index: number, value: string) => {
-    const updatedResearch = [...researchWorks];
-    updatedResearch[index] = value;
-    setResearchWorks(updatedResearch);
-  };
+    fetchMember();
+  }, [setValue]);
 
-  const handleRemoveResearch = (index: number) => {
-    setResearchWorks(researchWorks.filter((_, i) => i !== index));
-  };
-
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (formData: FormData) => {
     setLoading(true);
 
     const payload = {
-      password: "associate1234",
-      ResearchAssociate: {
-        fullName: data.fullName,
-        email: data.email,
-        contactNo: data.contactNo,
-        designation: data.designation,
+      ResearchMembar: {
         current: {
-          institution: data.currentInstitution,
-          department: data.currentDepartment,
-          degree: data.currentDegree,
+          institution: formData.currentInstitution || "",
+          department: formData.currentDepartment || "",
+          degree: formData.currentDegree || "",
         },
         education: {
-          degree: data.educationDegree,
-          field: data.educationField,
-          institution: data.educationInstitution,
-          status: data.educationStatus || "Ongoing",
-          scholarship: data.scholarship,
+          degree: formData.educationDegree || "",
+          field: formData.educationField || "",
+          institution: formData.educationInstitution || "",
+          status: formData.educationStatus || "Ongoing",
+          scholarship: formData.scholarship || "",
         },
-        research: researchWorks,
-        shortBio: data.shortBio,
+        research: data?.research || [],
+        shortBio: formData.shortBio || "N/A",
         socialLinks: {
-          facebook: data.facebook,
-          twitter: data.twitter,
-          linkedin: data.linkedin,
+          facebook: formData.facebook || "",
+          twitter: formData.twitter || "",
+          linkedin: formData.linkedin || "",
         },
       },
     };
 
-    const formData = new FormData();
-    if (data.file?.[0]) {
-      formData.append("file", data.file[0]);
-    }
-    formData.append("data", JSON.stringify(payload));
-
     try {
-      await registerUser(data);
-      setLoading(false);
-      toast.success("User created successfully");
+      const res = await UpdatePersonalMember(JSON.stringify(payload));
+      if (res.success === true) {
+        toast.success("Member updated successfully!");
+        setLoading(false);
+      }
     } catch (error) {
+      toast.error("Failed to update member.");
+    } finally {
       setLoading(false);
-      toast.error("Error creating user");
-      console.error("Error:", error);
     }
   };
 
   return (
-    <div className="max-w-full w-[98%] mx-auto">
-      <form onSubmit={handleSubmit(onSubmit)} className="grid gap-6 py-4">
-        <h2 className="text-lg font-semibold">Personal Information</h2>
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="fullName">Full Name</Label>
-            <Input id="fullName" {...register("fullName", { required: "Full Name is required" })} />
-            {errors.fullName && <p className="text-red-500 text-sm">{errors.fullName.message}</p>}
+    <Card className="w-full container mx-auto shadow-lg">
+      <CardHeader>
+        <CardTitle>Update Member</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <h3 className="text-lg font-medium mt-4">Current Institution</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <label>
+              Institution
+              <Input type="text" {...register("currentInstitution")} placeholder="Enter current institution" />
+              {errors.currentInstitution && <p className="text-red-500 text-sm">{errors.currentInstitution.message}</p>}
+            </label>
+            <label>
+              Department
+              <Input type="text" {...register("currentDepartment")} placeholder="Enter current department" />
+              {errors.currentDepartment && <p className="text-red-500 text-sm">{errors.currentDepartment.message}</p>}
+            </label>
+            <label>
+              Degree
+              <Input type="text" {...register("currentDegree")} placeholder="Enter current degree" />
+              {errors.currentDegree && <p className="text-red-500 text-sm">{errors.currentDegree.message}</p>}
+            </label>
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" {...register("email", { required: "Email is required" })} />
-            {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
+
+          <h3 className="text-lg font-medium mt-4">Education</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <label>
+              Degree
+              <Input type="text" {...register("educationDegree")} placeholder="Enter education degree" />
+              {errors.educationDegree && <p className="text-red-500 text-sm">{errors.educationDegree.message}</p>}
+            </label>
+            <label>
+              Field
+              <Input type="text" {...register("educationField")} placeholder="Enter field of study" />
+              {errors.educationField && <p className="text-red-500 text-sm">{errors.educationField.message}</p>}
+            </label>
+            <label>
+              Institution
+              <Input type="text" {...register("educationInstitution")} placeholder="Enter education institution" />
+              {errors.educationInstitution && <p className="text-red-500 text-sm">{errors.educationInstitution.message}</p>}
+            </label>
+            <label>
+  Status
+  <select {...register("educationStatus")} className="border rounded p-2 w-full">
+    <option value="Ongoing">Ongoing</option>
+    <option value="Completed">Completed</option>
+    <option value="Dropped">Dropped</option>
+  </select>
+  {errors.educationStatus && <p className="text-red-500 text-sm">{errors.educationStatus.message}</p>}
+</label>
+
+            <label>
+              Scholarship
+              <Input type="text" {...register("scholarship")} placeholder="Enter scholarship (if any)" />
+              {errors.scholarship && <p className="text-red-500 text-sm">{errors.scholarship.message}</p>}
+            </label>
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="contactNo">Contact</Label>
-            <Input id="contactNo" {...register("contactNo", { required: "Contact is required" })} />
-            {errors.contactNo && <p className="text-red-500 text-sm">{errors.contactNo.message}</p>}
+
+          <h3 className="text-lg font-medium mt-4">Short Bio</h3>
+          <label>
+            Short Bio
+            <Textarea {...register("shortBio")} placeholder="Enter a short bio" />
+            {errors.shortBio && <p className="text-red-500 text-sm">{errors.shortBio.message}</p>}
+          </label>
+
+          <h3 className="text-lg font-medium mt-4">Social Links</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <label>
+              Facebook
+              <Input type="text" {...register("facebook")} placeholder="Enter Facebook URL" />
+              {errors.facebook && <p className="text-red-500 text-sm">{errors.facebook.message}</p>}
+            </label>
+            <label>
+              Twitter
+              <Input type="text" {...register("twitter")} placeholder="Enter Twitter URL" />
+              {errors.twitter && <p className="text-red-500 text-sm">{errors.twitter.message}</p>}
+            </label>
+            <label>
+              LinkedIn
+              <Input type="text" {...register("linkedin")} placeholder="Enter LinkedIn URL" />
+              {errors.linkedin && <p className="text-red-500 text-sm">{errors.linkedin.message}</p>}
+            </label>
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="designation">Designation</Label>
-            <Input id="designation" {...register("designation", { required: "Designation is required" })} />
-            {errors.designation && <p className="text-red-500 text-sm">{errors.designation.message}</p>}
-          </div>
-        </div>
 
-        <Separator />
-
-        <h2 className="text-lg font-semibold">Research Work</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          {researchWorks.map((research, index) => (
-            <div key={index} className="flex items-center gap-2">
-              <Input
-                value={research}
-                onChange={(e) => handleResearchChange(index, e.target.value)}
-                placeholder={`Research ${index + 1}`}
-              />
-              <Button type="button" onClick={() => handleRemoveResearch(index)} variant="destructive">
-                ✕
-              </Button>
-            </div>
-          ))}
-        </div>
-        <Button variant="outline" type="button" onClick={handleAddResearch}>
-          Add Research
-        </Button>
-
-        <Separator />
-
-        <h2 className="text-lg font-semibold">Short Bio</h2>
-        <div className="space-y-2">
-          <Label htmlFor="shortBio">Short Bio</Label>
-          <Textarea id="shortBio" {...register("shortBio")} />
-        </div>
-
-        <Separator />
-
-        <h2 className="text-lg font-semibold">Social Links</h2>
-        <div className="grid grid-cols-3 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="facebook">Facebook</Label>
-            <Input type="url" id="facebook" {...register("facebook")} />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="twitter">Twitter</Label>
-            <Input type="url" id="twitter" {...register("twitter")} />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="linkedin">LinkedIn</Label>
-            <Input type="url" id="linkedin" {...register("linkedin")} />
-          </div>
-        </div>
-
-        <Separator />
-
-        <h2 className="text-lg font-semibold">Profile Picture</h2>
-        <div className="space-y-2">
-          <Label htmlFor="file">Upload Image</Label>
-          <Input type="file" id="file" {...register("file")} />
-        </div>
-
-        <DialogFooter>
-          <Button type="submit">{loading ? <span>Submitting...</span> : <span>Submit</span>}</Button>
-        </DialogFooter>
-      </form>
-    </div>
+          <Button type="submit" disabled={loading} className="w-full mt-4 cursor-pointer">
+            {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Update Member"}
+          </Button>
+        </form>
+      </CardContent>
+    </Card>
   );
 };
 

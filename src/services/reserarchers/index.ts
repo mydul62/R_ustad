@@ -17,9 +17,9 @@ import { cookies } from "next/headers";
         },
       });
      
-      if (!response.ok) {
-        throw new Error(`Request failed with status: ${response.status}`);
-      }
+      // if (!response.ok) {
+      //   throw new Error(`Request failed with status: ${response.status}`);
+      // }
   
       return await response.json();
     } catch (error) {
@@ -37,9 +37,34 @@ import { cookies } from "next/headers";
         },
       });
   
-      // if (!response.ok) {
-      //   throw new Error(`Request failed with status: ${response.status}`);
-      // }
+      if (!response.ok) {
+        throw new Error(`Request failed with status: ${response.status}`);
+      }
+  
+      return await response.json();
+    } catch (error) {
+      console.error("Error fetching single member:", error);
+      return null;
+    }
+  };
+  export const GetSinglePersonalMember = async () => {
+    try {
+      const token = (await cookies()).get("accessToken")?.value;
+  
+      if (!token) {
+        throw new Error("Access token not found");
+      }
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/researchAssociate/singleGet`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Request failed with status: ${response.status}`);
+      }
   
       return await response.json();
     } catch (error) {
@@ -83,7 +108,26 @@ import { cookies } from "next/headers";
         },
         body:data
       });
-      revalidateTag("member");
+      return await response.json();
+    } catch (error) {
+      console.error("Error delete memeber:", error);
+      return null;
+    }
+  };
+  export const UpdatePersonalMember = async (data:any) => {
+
+    try {
+      const cookieStore = await cookies();
+      let token = cookieStore.get("accessToken")!.value;
+      console.log(token)
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/researchAssociate/MembarUpdate`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization":token,
+        },
+        body:data
+      });
       return await response.json();
     } catch (error) {
       console.error("Error delete memeber:", error);

@@ -4,6 +4,9 @@ import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@
 import { Button } from "@/components/ui/button";
 import { DeleteBlog } from "@/services/blogs";
 import { toast } from "sonner";
+import Link from "next/link";
+import { LinkIcon } from "lucide-react";
+
 
 const AllBlogs = ({ data }: { data: TPost[] }) => {
   const handleDelete =async (id: string) => {
@@ -42,14 +45,14 @@ const AllBlogs = ({ data }: { data: TPost[] }) => {
           {data.map((post) => (
             <TableRow key={post._id}>
               <TableCell>{post.title}</TableCell>
-              <TableCell>{post.author?.name || "Unknown"}</TableCell>
+              <TableCell>{post.author?.fullName || "Unknown"}</TableCell>
               <TableCell>{post.category}</TableCell>
               <TableCell>{new Date(post.publishedDate).toLocaleDateString()}</TableCell>
-              <TableCell>
-                <Button variant="outline" className="mr-2" onClick={() => handleView(post._id)}>
-                  View
-                </Button>
-                <Button variant="destructive" onClick={() => handleDelete(post._id)}>
+              <TableCell className=" flex items-center gap-4 ">
+              <Link href={`/blog/${post?._id}`} className="btn  mr-2 cursor-pointer">
+              <LinkIcon></LinkIcon>
+</Link>
+                <Button variant="destructive" className=" cursor-pointer" onClick={() => handleDelete(post._id)}>
                   Delete
                 </Button>
               </TableCell>

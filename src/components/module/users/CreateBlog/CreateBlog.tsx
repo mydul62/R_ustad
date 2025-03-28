@@ -74,35 +74,35 @@ const CreateBlog = () => {
   };
 
   return (
-    <Card className="max-w-lg mx-auto p-6 shadow-lg">
+    <Card className="contain-content mx-auto p-6 shadow-lg">
       <CardContent>
         <h2 className="text-xl font-semibold mb-4">Create Blog</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
-            <Label>Title</Label>
+            <Label className="mb-3">Title</Label>
             <Input {...register("title")} placeholder="Enter title" />
             {errors.title && <p className="text-red-500">{errors.title.message}</p>}
           </div>
 
           <div>
-            <Label>Category</Label>
+            <Label className="mb-3">Category</Label>
             <Input {...register("category")} placeholder="Category" />
             {errors.category && <p className="text-red-500">{errors.category.message}</p>}
           </div>
 
           <div>
-            <Label>Published Date</Label>
+            <Label className="mb-3">Published Date</Label>
             <Input type="date" {...register("publishedDate")} />
           </div>
 
           <div>
-            <Label>Short Description</Label>
-            <Textarea {...register("shortDescription")} placeholder="Write a short description..." />
+            <Label className="mb-3">Short Description</Label>
+            <Textarea className="h-40" {...register("shortDescription")} placeholder="Write a short description..." />
             {errors.shortDescription && <p className="text-red-500">{errors.shortDescription.message}</p>}
           </div>
 
           <div>
-            <Label>Upload Image</Label>
+            <Label className="mb-3">Upload Image</Label>
             <Input
               type="file"
               accept="image/*"
@@ -116,7 +116,7 @@ const CreateBlog = () => {
             {imagePreview && <img src={imagePreview} alt="Preview" className="mt-2 rounded-lg w-32 h-32 object-cover" />}
           </div>
 
-          <Button type="submit">Submit</Button>
+          <Button className="cursor-pointer" type="submit">Submit</Button>
         </form>
       </CardContent>
     </Card>

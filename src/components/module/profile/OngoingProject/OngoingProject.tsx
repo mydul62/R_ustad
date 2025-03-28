@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 
 
 const OngoingProject = ({data}:{data:TPapers[]}) => {
-  const [ongotinProjects, setOngoingProjects] = useState<User[]>([]);
+  const [ongotinProjects, setOngoingProjects] = useState<TPapers[]>([]);
 
   useEffect(() => {
 

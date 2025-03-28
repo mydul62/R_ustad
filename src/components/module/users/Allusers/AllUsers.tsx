@@ -18,7 +18,6 @@ const AllUsers = ({users}:{users:TUser[]}) => {
   if(currentRole =="user" || currentRole ==="admin"){
     const res = await PromoteRole(id);
    if(res.data){
-   console.log(res.data.role)
    toast.success(`Promoted ${res?.data?.fullName} to ${res?.data?.role}`);
    }
   }

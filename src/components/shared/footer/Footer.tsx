@@ -62,7 +62,12 @@ const Footer = () => {
 
       {/* Bottom Section */}
       <div className="border-t border-gray-200 my-10 pt-4">
-        <p className="text-center text-gray-600">© 2025 Research Ustad. All Rights Reserved.</p>
+      <p className="text-center text-gray-600">
+  © 2025 Research Ustad. All Rights Reserved. Developed with  by 
+  <span className="font-semibold text-gray-800"> Junayet </span> and 
+  <span className="font-semibold text-gray-800"> Mydul</span>.
+</p>
+
       </div>
     </footer>
   );

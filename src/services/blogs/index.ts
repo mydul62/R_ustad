@@ -1,5 +1,6 @@
 "use server"
 
+import { IdCard } from "lucide-react";
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
@@ -25,6 +26,32 @@ export const GetAllBlog = async () => {
     return null;
   }
 };
+
+export const SingleBlog = async (id:string) => {
+  try {
+
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status: ${response.status}`);
+    }
+    console.log(response)
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error single blog get:", error);
+    return null;
+  }
+};
+
+
+
+
 export const BlogPost = async (data:any) => {
 console.log(data)
   try {
