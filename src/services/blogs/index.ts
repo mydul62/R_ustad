@@ -1,6 +1,7 @@
 "use server"
 
 import { BlogPostForm } from "@/components/module/users/CreateBlog/CreateBlog";
+import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
 export const GetAllBlog = async () => {
@@ -10,6 +11,9 @@ export const GetAllBlog = async () => {
       headers: {
         "Content-Type": "application/json",
       },
+      next:{
+      tags:["blogs"]
+      }
     });
 
     if (!response.ok) {
@@ -18,22 +22,50 @@ export const GetAllBlog = async () => {
 
     return await response.json();
   } catch (error) {
-    console.error("Error fetching research associates:", error);
+    console.error("Error fblog get:", error);
     return null;
   }
 };
 
-export const BlogPost = async (formData:BlogPostForm) => {
+export const SingleBlog = async (id:string) => {
   try {
-    const cookieStore = await cookies();
-    let token = cookieStore.get("accessToken")!.value;
+
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status: ${response.status}`);
+    }
+    console.log(response)
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error single blog get:", error);
+    return null;
+  }
+};
+
+
+
+
+export const BlogPost = async (data:any) => {
+console.log(data)
+  try {
+    const token = (await cookies()).get("accessToken")?.value;
+  
+      if (!token) {
+        throw new Error("Access token not found");
+      }
     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        "Authorization": token,
+        Authorization: token,
       },
-      body: JSON.stringify(formData),
+      body:data
     });
 
     // if (!response.ok) {
@@ -42,7 +74,27 @@ export const BlogPost = async (formData:BlogPostForm) => {
 
     return await response.json();
   } catch (error) {
-    console.error("Error posting research paper:", error);
-    throw error; // Re-throwing the error to be handled in the component
+    console.error("Error blog post:", error);
+    return null;
   }
 };
+
+  export const DeleteBlog = async (id:string) => {
+  console.log(id)
+    try {
+      const cookieStore = await cookies();
+      let token = cookieStore.get("accessToken")!.value;
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization":token,
+        },
+      });
+      revalidateTag("blogs");
+      return await response.json();
+    } catch (error) {
+      console.error("Error delete memeber:", error);
+      return null;
+    }
+  };

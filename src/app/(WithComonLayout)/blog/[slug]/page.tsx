@@ -1,13 +1,9 @@
-"use client";
+
 
 import SingleBlogPage from "@/components/blogs/SingleBlogPage";
 
-const Page = ({ params }:{params:any}) => {
-  const slug = params?.slug;
-
-  if (!slug) {
-    return <div>Loading...</div>; 
-  }
+const Page =async ({ params }:{params:any}) => {
+  const {slug} =await params;
 
   return (
     <div>

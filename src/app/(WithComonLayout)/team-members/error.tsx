@@ -19,7 +19,7 @@ export default function Error({
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-center p-6">
       <h2 className="text-2xl font-semibold text-red-600">Something went wrong!</h2>
-      <p className="text-gray-700 mt-2">We encountered an unexpected error. Please try again.</p>
+      <p className="text-gray-700 mt-2">We encountered an unexpected error or Internate Error. Please try again.</p>
       <div className="mt-4 flex gap-4">
         <button
           onClick={() => reset()}
